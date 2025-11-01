@@ -1,4 +1,4 @@
-Cd Store Ordering App
+Cd Store Ordering App💿
 
 Aplicația este un sistem de comandă online pentru un magazin care vinde CD-uri. Utilizatorul poate vizualiza produsele disponibile, le poate adăuga în coș și poate plasa o comandă. Aplicația permite: căutarea produselor după nume sau artist; filtrarea CD-urilor după gen muzical; afișarea prețului și a stocului disponibil; adăugarea și eliminarea produselor din coș; completarea datelor personale pentru finalizarea comenzii; alegerea metodei de livrare: ridicare din magazin sau livrare la domiciliu.
 
@@ -30,8 +30,8 @@ O cerință nu se consideră îndeplinită dacă este realizată doar prin cod g
 
 ### Tema 0
 
-- [ ] Nume proiect (poate fi schimbat ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
+- [✔️] Nume proiect (poate fi schimbat ulterior)
+- [✔️ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
 
 ## Tema 1
 
