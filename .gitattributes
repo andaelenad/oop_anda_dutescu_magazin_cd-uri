@@ -1,1 +1,9 @@
 ext/** linguist-vendored
+
+* text=auto
+*.cpp text
+*.h text
+*.exe binary
+*.dll binary
+*.png binary
+*.jpg binary
