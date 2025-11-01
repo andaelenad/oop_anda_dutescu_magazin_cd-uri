@@ -1,7 +1,7 @@
 Cd Store Ordering App💿
 
 Aplicația este un sistem de comandă online pentru un magazin care vinde CD-uri. Utilizatorul poate vizualiza produsele disponibile, le poate adăuga în coș și poate plasa o comandă. Aplicația permite: căutarea produselor după nume sau artist; filtrarea CD-urilor după gen muzical; afișarea prețului și a stocului disponibil; adăugarea și eliminarea produselor din coș; completarea datelor personale pentru finalizarea comenzii; alegerea metodei de livrare: ridicare din magazin sau livrare la domiciliu.
-
+👹👺👻👽👾🤖😺😸😹😻😼
 
 
 | Laborant  | Link template                                |
