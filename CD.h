@@ -10,6 +10,8 @@ private:
     std::string artist;
     double pret;
 
+    static int numarTotalCDuriVandute;
+
 public:
     CD(const std::string& n, const std::string& a, double p);
     CD(const CD& other);
@@ -19,6 +21,9 @@ public:
     double getPret() const;
     const std::string& getNume() const;
     const std::string& getArtist() const;
+
+    static int getNumarTotalCDuri();
+    bool operator>(const CD& other) const;
 
     friend std::ostream& operator<<(std::ostream& os, const CD& cd);
 };

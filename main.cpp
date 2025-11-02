@@ -112,39 +112,39 @@ int main() {
 
     std::cout << "\n[Utilizare Functii Suplimentare]\n";
 
+    std::cout << "Total CD-uri create/vandute in sistem (Static): " << CD::getNumarTotalCDuri() << "\n";
+
+    CD cdScump("Poezie Urbana", "Cedry2k", 40.0);
+    CD cdIeftin("Subcultura", "Raku", 30.0);
+    if (cdScump > cdIeftin) {
+        std::cout << "Test operator>: CD-ul '" << cdScump.getNume() << "' este mai scump decat celalalt.\n";
+    }
+
+    std::cout << "\nArtistul cu cele mai multe vanzari este: '"
+              << magazin.getTopArtist() << "'\n";
+
+    if (magazin.numarComenzi() > 1) {
+        magazin.sorteazaComenziDupaValoare();
+        std::cout << "\n--- TEST SORTARE COMENZI ---\n";
+        std::cout << "Comenzile au fost sortate. Prima comanda (cea mai mica valoare): "
+                  << magazin.getComenzi()[0].getClient().getNume()
+                  << " cu totalul de " << std::fixed << std::setprecision(2)
+                  << magazin.getComenzi()[0].calculeazaTotal() << " RON\n";
+    }
+
     if (magazin.numarComenzi() > 0) {
+        const Client& clientDeActualizat = magazin.getComenzi()[0].getClient();
+        CD cdDeAdaugat("Noutate 2025", "B.U.G. Mafia", 75.0);
 
-        Comanda& primaComanda = magazin.getComenzi()[0];
-
-        CD cdSuplimentar("Album surpriza", "Artist Necunoscut", 00.00);
-        primaComanda.adaugaCD(cdSuplimentar);
-
-        std::cout << "Test adaugaCD(): Adaugat CD la prima comanda. Numar nou de CD-uri: "
-                  << primaComanda.getCDuri().size() << "\n";
-    } else {
-        Client clientPentruActualizare("Client Fidel", "fidel@magazin.ro");
-        CD cdDeAdaugat("Noutate", "The Fix", 99.99);
-
-        if (magazin.numarComenzi() == 0) {
-
-            std::vector<CD> listaInitiala;
-            listaInitiala.emplace_back("Primul", "Initial", 10.0);
-            magazin.adaugaComanda(Comanda(clientPentruActualizare, listaInitiala));
-            std::cout << "Creat comanda initiala pentru test.\n";
-        }
-
-
-        bool succes = magazin.actualizeazaComanda(clientPentruActualizare, cdDeAdaugat);
+        bool succes = magazin.actualizeazaComanda(clientDeActualizat, cdDeAdaugat);
 
         if (succes) {
-            std::cout << "Comanda clientului '" << clientPentruActualizare.getNume()
-                      << "' a fost actualizata cu noul CD.\n";
-        } else {
-            std::cout << "Nu s-a gasit o comanda a clientului pentru actualizare.\n";
+            std::cout << "\nComanda clientului '" << clientDeActualizat.getNume()
+                      << "' a fost actualizata cu un CD suplimentar.\n";
         }
-
-
-
-        return 0;
     }
+
+    return 0;
 }
+
+

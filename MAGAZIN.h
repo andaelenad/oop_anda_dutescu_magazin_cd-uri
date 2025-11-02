@@ -21,15 +21,16 @@ public:
     double venitTotal() const;
     int numarComenzi() const;
 
-
     std::vector<Comanda>& getComenzi() { return comenzi; }
+    const std::vector<Comanda>& getComenzi() const { return comenzi; }
 
-    // Funcție nouă pentru a folosi Comanda::adaugaCD()
     bool actualizeazaComanda(const Client& client, const CD& cd_nou);
-
 
     void raportClientiTop(int topN) const;
     std::vector<Comanda> filtreazaComenziDupaArtist(const std::string& artistCautat) const;
+
+    void sorteazaComenziDupaValoare();
+    std::string getTopArtist() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Magazin& m);
 };

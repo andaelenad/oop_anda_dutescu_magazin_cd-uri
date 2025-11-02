@@ -6,6 +6,10 @@
 #include <iostream>
 #include <vector>
 
+bool comparaComenziDupaTotal(const Comanda& c1, const Comanda& c2) {
+    return c1.calculeazaTotal() < c2.calculeazaTotal();
+}
+
 Magazin::Magazin(const std::string& n) : nume(n) {}
 
 Magazin::Magazin(const Magazin& other) : nume(other.nume), comenzi(other.comenzi) {}
@@ -32,6 +36,35 @@ double Magazin::venitTotal() const {
 
 int Magazin::numarComenzi() const {
     return comenzi.size();
+}
+
+void Magazin::sorteazaComenziDupaValoare() {
+    std::sort(comenzi.begin(), comenzi.end(), comparaComenziDupaTotal);
+}
+
+std::string Magazin::getTopArtist() const {
+    std::map<std::string, int> artistVanzari;
+
+    for (const auto& comanda : comenzi) {
+        for (const auto& cd : comanda.getCDuri()) {
+            artistVanzari[cd.getArtist()]++;
+        }
+    }
+
+    if (artistVanzari.empty()) {
+        return "Niciun artist inregistrat";
+    }
+
+    std::string topArtist = "";
+    int maxVanzari = -1;
+
+    for (const auto& pair : artistVanzari) {
+        if (pair.second > maxVanzari) {
+            maxVanzari = pair.second;
+            topArtist = pair.first;
+        }
+    }
+    return topArtist;
 }
 
 bool Magazin::actualizeazaComanda(const Client& client, const CD& cd_nou) {

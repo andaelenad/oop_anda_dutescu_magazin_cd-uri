@@ -2,8 +2,12 @@
 #include <iostream>
 #include <iomanip>
 
+int CD::numarTotalCDuriVandute = 0;
+
 CD::CD(const std::string& n, const std::string& a, double p)
-    : nume(n), artist(a), pret(p) {}
+    : nume(n), artist(a), pret(p) {
+    numarTotalCDuriVandute++;
+}
 
 CD::CD(const CD& other)
     : nume(other.nume), artist(other.artist), pret(other.pret) {}
@@ -27,6 +31,14 @@ const std::string& CD::getNume() const {
 
 const std::string& CD::getArtist() const {
     return artist;
+}
+
+int CD::getNumarTotalCDuri() {
+    return numarTotalCDuriVandute;
+}
+
+bool CD::operator>(const CD& other) const {
+    return this->pret > other.pret;
 }
 
 std::ostream& operator<<(std::ostream& os, const CD& cd) {
