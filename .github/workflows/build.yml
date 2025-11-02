@@ -1,4 +1,4 @@
-name: C++ Build (Magazin CD-uri)
+name: C++ Build (Magazin CD-uri Multi-Platform)
 
 on:
   push:
@@ -7,28 +7,87 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        sanitizer: [none, address, undefined, memory]  # ASAN, UBSAN, MSAN
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up g++
+      - name: Install g++
         run: sudo apt-get update && sudo apt-get install -y g++
 
-      - name: Build project
+      - name: Create bin folder
+        run: mkdir -p bin
+
+      - name: Compile
         run: |
-          mkdir -p bin
-          g++ -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp -o bin/magazin_cd
+          FLAGS="-std=c++17"
+          if [ "${{ matrix.sanitizer }}" = "address" ]; then
+            FLAGS="$FLAGS -fsanitize=address"
+          elif [ "${{ matrix.sanitizer }}" = "undefined" ]; then
+            FLAGS="$FLAGS -fsanitize=undefined"
+          elif [ "${{ matrix.sanitizer }}" = "memory" ]; then
+            FLAGS="$FLAGS -fsanitize=memory"
+          fi
+          g++ $FLAGS main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp ADRESA.cpp -o bin/magazin_cd
+
+      - name: List bin contents
+        run: ls -R bin
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: magazin_cd
-          path: bin/
+          name: magazin_cd_linux-${{ matrix.sanitizer }}
+          path: bin/magazin_cd
 
-      - name: Run executable
-        run: ./bin/magazin_cd || true
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gcc
+        run: brew install gcc
+
+      - name: Create bin folder
+        run: mkdir -p bin
+
+      - name: Compile
+        run: g++-13 -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp ADRESA.cpp -o bin/magazin_cd
+
+      - name: List bin contents
+        run: ls -R bin
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: magazin_cd_macos
+          path: bin/magazin_cd
+
+  build-windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Mingw
+        run: choco install mingw -y
+
+      - name: Create bin folder
+        run: mkdir bin
+
+      - name: Compile
+        run: g++ -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp ADRESA.cpp -o bin\magazin_cd.exe
+
+      - name: List bin contents
+        run: dir bin
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: magazin_cd_windows
+          path: bin/magazin_cd.exe
+
 
 
