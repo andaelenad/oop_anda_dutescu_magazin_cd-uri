@@ -15,10 +15,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up g++
-        run: sudo apt-get install -y g++
+        run: sudo apt-get update && sudo apt-get install -y g++
 
       - name: Build project
-        run: g++ -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp -o magazin_cd
+        run: |
+          mkdir -p bin
+          g++ -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp ADRESA.cpp -o bin/magazin_cd
 
-      - name: Run executable
-        run: ./magazin_cd || true
+      - name: Upload artifact
+        uses: act
+

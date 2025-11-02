@@ -114,35 +114,39 @@ int main() {
 
     std::cout << "\n[Utilizare Functii Suplimentare]\n";
 
+    if (magazin.numarComenzi() > 0) {
 
-    Client clientPentruActualizare("Client Fidel", "fidel@magazin.ro");
-    CD cdDeAdaugat("Noutate", "The Fix", 99.99);
+        Comanda& primaComanda = magazin.getComenzi()[0];
 
-    if (magazin.numarComenzi() == 0) {
+        CD cdSuplimentar("Album surpriza", "Artist Necunoscut", 00.00);
+        primaComanda.adaugaCD(cdSuplimentar);
 
-        std::vector<CD> listaInitiala;
-        listaInitiala.emplace_back("Primul", "Initial", 10.0);
-        magazin.adaugaComanda(Comanda(clientPentruActualizare, listaInitiala));
-        std::cout << "Creat comanda initiala pentru test.\n";
-    }
-
-
-    bool succes = magazin.actualizeazaComanda(clientPentruActualizare, cdDeAdaugat);
-
-    if (succes) {
-        std::cout << "Comanda clientului '" << clientPentruActualizare.getNume()
-                  << "' a fost actualizata cu noul CD.\n";
+        std::cout << "Test adaugaCD(): Adaugat CD la prima comanda. Numar nou de CD-uri: "
+                  << primaComanda.getCDuri().size() << "\n";
     } else {
-        std::cout << "Nu s-a gasit o comanda a clientului pentru actualizare.\n";
+        Client clientPentruActualizare("Client Fidel", "fidel@magazin.ro");
+        CD cdDeAdaugat("Noutate", "The Fix", 99.99);
+
+        if (magazin.numarComenzi() == 0) {
+
+            std::vector<CD> listaInitiala;
+            listaInitiala.emplace_back("Primul", "Initial", 10.0);
+            magazin.adaugaComanda(Comanda(clientPentruActualizare, listaInitiala));
+            std::cout << "Creat comanda initiala pentru test.\n";
+        }
+
+
+        bool succes = magazin.actualizeazaComanda(clientPentruActualizare, cdDeAdaugat);
+
+        if (succes) {
+            std::cout << "Comanda clientului '" << clientPentruActualizare.getNume()
+                      << "' a fost actualizata cu noul CD.\n";
+        } else {
+            std::cout << "Nu s-a gasit o comanda a clientului pentru actualizare.\n";
+        }
+
+
+
+        return 0;
     }
-
-
-
-    return 0;
 }
-
-
-
-
-
-

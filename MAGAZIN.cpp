@@ -7,7 +7,8 @@
 
 Magazin::Magazin(const std::string& n) : nume(n) {}
 
-Magazin::Magazin(const Magazin& other) : nume(other.nume), comenzi(other.comenzi) {}
+Magazin::Magazin(const Magazin& other)
+    : nume(other.nume), comenzi(other.comenzi) {}
 
 Magazin& Magazin::operator=(const Magazin& other) {
     if (this != &other) {
@@ -30,19 +31,17 @@ double Magazin::venitTotal() const {
 }
 
 int Magazin::numarComenzi() const {
-    return comenzi.size();
+    return static_cast<int>(comenzi.size());
 }
 
-// Funcția care folosește Comanda::adaugaCD()
 bool Magazin::actualizeazaComanda(const Client& client, const CD& cd_nou) {
     auto it = std::find_if(comenzi.begin(), comenzi.end(),
-        [&client](Comanda& c) {
+        [&client](const Comanda& c) {
             return c.getClient().getNume() == client.getNume();
-        }
-    );
+        });
 
     if (it != comenzi.end()) {
-        it->adaugaCD(cd_nou); // Utilizarea Comanda::adaugaCD()
+        it->adaugaCD(cd_nou);
         return true;
     }
     return false;
@@ -56,14 +55,11 @@ void Magazin::raportClientiTop(int topN) const {
         clientCDCounts[comanda.getClient().getNume()] += comanda.numarCDuri();
     }
 
-    std::vector<std::pair<std::string, int>> sortedClients;
-    for (const auto& pair : clientCDCounts) {
-        sortedClients.push_back(pair);
-    }
+    std::vector<std::pair<std::string, int>> sortedClients(clientCDCounts.begin(), clientCDCounts.end());
 
-    std::sort(sortedClients.begin(), sortedClients.end(), [](const auto& a, const auto& b) {
-        return a.second > b.second;
-    });
+    std::sort(sortedClients.begin(), sortedClients.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
     for (size_t i = 0; i < static_cast<size_t>(topN) && i < sortedClients.size(); ++i) {
         std::cout << (i + 1) << ". " << sortedClients[i].first
                   << " (CD-uri: " << sortedClients[i].second << ")\n";
@@ -72,7 +68,6 @@ void Magazin::raportClientiTop(int topN) const {
 
 std::vector<Comanda> Magazin::filtreazaComenziDupaArtist(const std::string& artistCautat) const {
     std::vector<Comanda> comenziGasite;
-
     std::string lowerArtistCautat = artistCautat;
     std::transform(lowerArtistCautat.begin(), lowerArtistCautat.end(), lowerArtistCautat.begin(), ::tolower);
 
@@ -91,6 +86,7 @@ std::vector<Comanda> Magazin::filtreazaComenziDupaArtist(const std::string& arti
             comenziGasite.push_back(comanda);
         }
     }
+
     return comenziGasite;
 }
 
@@ -106,3 +102,4 @@ std::ostream& operator<<(std::ostream& os, const Magazin& m) {
     }
     return os;
 }
+
