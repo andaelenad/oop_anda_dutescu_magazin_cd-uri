@@ -15,7 +15,6 @@ set(PROJECT_SOURCES
         CLIENT.cpp
         COMANDA.cpp
         MAGAZIN.cpp
-        ADRESA.cpp
 
 
 )

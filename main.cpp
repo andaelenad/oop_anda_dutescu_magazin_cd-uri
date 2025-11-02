@@ -2,14 +2,13 @@
 #include "CLIENT.h"
 #include "COMANDA.h"
 #include "MAGAZIN.h"
-#include "ADRESA.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
-#include <sstream>
+//#include <sstream>
 #include <stdexcept>
-#include <algorithm>
+//#include <algorithm>
 #include <iomanip>
 
 void citesteComanda(std::ifstream& fin, Magazin& magazin) {
@@ -19,9 +18,7 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
     std::string numeClient = line;
 
     if (!std::getline(fin, line)) return;
-    std::string adresaStr = line;
-
-    Adresa adr(adresaStr, "N/A");
+    std::string emailClient = line;
 
     int n = 0;
     if (!(fin >> n)) return;
@@ -65,9 +62,11 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
         }
     }
 
-    Client client(numeClient, adr, "");
-    Comanda com(client, cduri);
-    magazin.adaugaComanda(com);
+    if (!cduri.empty()) {
+        Client client(numeClient, emailClient);
+        Comanda comanda(client, cduri);
+        magazin.adaugaComanda(comanda);
+    }
 }
 
 int main() {
