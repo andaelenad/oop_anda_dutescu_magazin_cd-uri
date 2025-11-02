@@ -1,4 +1,6 @@
 #include "CLIENT.h"
+#include "ADRESA.h"
+
 #include <iostream>
 
 Client::Client(const std::string& n, const Adresa& a, const std::string& e)
