@@ -28,7 +28,6 @@ env:
   BUILD_DIR: "build"
   EXT_DIR: "ext"
 
-
 defaults:
   run:
     # Use a bash shell, so we can use the same syntax for environment variable
