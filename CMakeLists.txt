@@ -1,7 +1,7 @@
-# 1. Versiunea minimă de CMake
+
 cmake_minimum_required(VERSION 3.10)
 
-# 2. Definirea Proiectului (pentru a elimina Avertismentele)
+
 project(MagazinCDuri CXX)
 
 
@@ -16,7 +16,7 @@ set(PROJECT_SOURCES
         COMANDA.cpp
         MAGAZIN.cpp
         ADRESA.cpp
-        ADRESA.h
+
 
 )
 
