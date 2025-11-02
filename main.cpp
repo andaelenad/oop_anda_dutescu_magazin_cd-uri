@@ -112,8 +112,6 @@ int main() {
         }
     }
 
-
-
     std::cout << "\n[Test Regula Celor 5]\n";
 
 
