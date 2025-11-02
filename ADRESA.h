@@ -10,8 +10,8 @@ private:
     std::string numar;
 public:
     Adresa(const std::string& s = "", const std::string& n = "");
-    Adresa(const Adresa& other); // Declaratie simpla
-    Adresa& operator=(const Adresa& other); // Declaratie simpla
+    Adresa(const Adresa& other);
+    Adresa& operator=(const Adresa& other);
     ~Adresa() = default;
 
     const std::string& getStrada() const { return strada; }

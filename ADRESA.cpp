@@ -5,7 +5,6 @@
 Adresa::Adresa(const std::string& s, const std::string& n)
     : strada(s), numar(n) {}
 
-
 Adresa::Adresa(const Adresa& other)
     : strada(other.strada), numar(other.numar) {}
 
