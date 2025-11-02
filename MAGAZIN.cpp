@@ -49,8 +49,8 @@ void Magazin::raportClientiTop(int topN) const {
     std::sort(sortedClients.begin(), sortedClients.end(), [](const auto& a, const auto& b) {
         return a.second > b.second;
     });
+    for (size_t i = 0; i < static_cast<size_t>(topN) && i < sortedClients.size(); ++i) {
 
-    for (int i = 0; i < topN && i < sortedClients.size(); ++i) {
         std::cout << (i + 1) << ". " << sortedClients[i].first
                   << " (CD-uri: " << sortedClients[i].second << ")\n";
     }
