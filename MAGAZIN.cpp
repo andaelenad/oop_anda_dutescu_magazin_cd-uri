@@ -4,11 +4,11 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <vector>
 
 Magazin::Magazin(const std::string& n) : nume(n) {}
 
-Magazin::Magazin(const Magazin& other)
-    : nume(other.nume), comenzi(other.comenzi) {}
+Magazin::Magazin(const Magazin& other) : nume(other.nume), comenzi(other.comenzi) {}
 
 Magazin& Magazin::operator=(const Magazin& other) {
     if (this != &other) {
@@ -31,15 +31,15 @@ double Magazin::venitTotal() const {
 }
 
 int Magazin::numarComenzi() const {
-    return static_cast<int>(comenzi.size());
+    return comenzi.size();
 }
 
 bool Magazin::actualizeazaComanda(const Client& client, const CD& cd_nou) {
     auto it = std::find_if(comenzi.begin(), comenzi.end(),
         [&client](const Comanda& c) {
             return c.getClient().getNume() == client.getNume();
-        });
-
+        }
+    );
     if (it != comenzi.end()) {
         it->adaugaCD(cd_nou);
         return true;
@@ -57,8 +57,9 @@ void Magazin::raportClientiTop(int topN) const {
 
     std::vector<std::pair<std::string, int>> sortedClients(clientCDCounts.begin(), clientCDCounts.end());
 
-    std::sort(sortedClients.begin(), sortedClients.end(),
-              [](const auto& a, const auto& b) { return a.second > b.second; });
+    std::sort(sortedClients.begin(), sortedClients.end(), [](const auto& a, const auto& b) {
+        return a.second > b.second;
+    });
 
     for (size_t i = 0; i < static_cast<size_t>(topN) && i < sortedClients.size(); ++i) {
         std::cout << (i + 1) << ". " << sortedClients[i].first
@@ -76,17 +77,13 @@ std::vector<Comanda> Magazin::filtreazaComenziDupaArtist(const std::string& arti
         for (const auto& cd : comanda.getCDuri()) {
             std::string lowerArtistCD = cd.getArtist();
             std::transform(lowerArtistCD.begin(), lowerArtistCD.end(), lowerArtistCD.begin(), ::tolower);
-
             if (lowerArtistCD.find(lowerArtistCautat) != std::string::npos) {
                 gasit = true;
                 break;
             }
         }
-        if (gasit) {
-            comenziGasite.push_back(comanda);
-        }
+        if (gasit) comenziGasite.push_back(comanda);
     }
-
     return comenziGasite;
 }
 

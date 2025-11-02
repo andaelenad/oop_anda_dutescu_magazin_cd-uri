@@ -6,9 +6,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <stdexcept>
-#include <algorithm>
 #include <iomanip>
 
 void citesteComanda(std::ifstream& fin, Magazin& magazin) {
