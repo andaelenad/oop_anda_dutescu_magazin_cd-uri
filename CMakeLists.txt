@@ -17,7 +17,6 @@ set(PROJECT_SOURCES
         MAGAZIN.cpp
         ADRESA.cpp
 
-
 )
 
 
