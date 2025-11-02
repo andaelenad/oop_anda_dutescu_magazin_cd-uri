@@ -80,8 +80,10 @@ int main() {
     Magazin magazin("Magazin CD-uri OOP");
 
     std::cout << ">>> Incarcare date din tastatura.txt...\n";
-    while (!fin.eof()) {
+
+    while (fin.peek() != EOF) {
         citesteComanda(fin, magazin);
+
         std::string emptyLine;
         std::getline(fin, emptyLine);
     }
