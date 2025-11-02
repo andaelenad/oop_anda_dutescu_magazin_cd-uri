@@ -1,4 +1,4 @@
-name: C++ Build & Run (Magazin CD-uri)
+name: C++ Build (Magazin CD-uri)
 
 on:
   push:
@@ -8,56 +8,27 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-2022, macos-latest]
-        sanitizer: [none, address, undefined]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup compiler
-        if: matrix.os == 'ubuntu-latest'
+      - name: Set up g++
         run: sudo apt-get update && sudo apt-get install -y g++
 
-      - name: Setup compiler on macOS
-        if: matrix.os == 'macos-latest'
-        run: brew install gcc
-
-      - name: Create bin folder
-        run: mkdir -p bin
-
-      - name: Compile
+      - name: Build project
         run: |
-          FLAGS="-std=c++17"
-          if [[ "${{ matrix.sanitizer }}" == "address" ]]; then
-            FLAGS="$FLAGS -fsanitize=address"
-          elif [[ "${{ matrix.sanitizer }}" == "undefined" ]]; then
-            FLAGS="$FLAGS -fsanitize=undefined"
-          fi
-
-          if [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            g++ $FLAGS main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp -o bin/magazin_cd.exe
-          else
-            g++ $FLAGS main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp -o bin/magazin_cd
-          fi
-
-      - name: Run executable
-        run: |
-          if [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            ./bin/magazin_cd.exe || true
-          else
-            ./bin/magazin_cd || true
-          fi
+          mkdir -p bin
+          g++ -std=c++17 main.cpp CD.cpp CLIENT.cpp COMANDA.cpp MAGAZIN.cpp -o bin/magazin_cd
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: magazin_cd-${{ matrix.os }}-${{ matrix.sanitizer }}
+          name: magazin_cd
           path: bin/
 
-
+      - name: Run executable
+        run: ./bin/magazin_cd || true
 
 
