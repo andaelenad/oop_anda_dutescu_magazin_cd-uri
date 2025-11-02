@@ -1,0 +1,91 @@
+name: C++ CI Build Matrix
+
+# Fluxul de lucru ruleaza la:
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Permite rularea manuala din interfata GitHub Actions
+  workflow_dispatch:
+
+jobs:
+  build_test:
+    # Definim matricea de configuratii (OS + Compiler)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux (Ubuntu) cu GCC si Clang
+          - os: ubuntu-latest
+            cc: gcc
+            cxx: g++
+            name: "Ubuntu-GCC"
+            generator: "Ninja"
+          - os: ubuntu-latest
+            cc: clang
+            cxx: clang++
+            name: "Ubuntu-Clang"
+            generator: "Ninja"
+          # macOS (Apple Clang - implicit pe macOS)
+          - os: macos-latest
+            cc: clang
+            cxx: clang++
+            name: "macOS-Clang"
+            generator: "Ninja"
+          # Windows (MSVC)
+          - os: windows-latest
+            cc: cl
+            cxx: cl
+            name: "Windows-MSVC"
+            generator: "Ninja"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Dependencies (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          # Instalam Ninja (necesar pentru a rula 'cmake -G "Ninja"')
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+          # Asiguram ca CTest este instalat
+          sudo apt-get install -y cmake
+
+      - name: Configure CMake
+        run: |
+          # Cream directorul de compilare 'build' in afara sursei si configuram proiectul
+          cmake -S . -B ${{github.workspace}}/build -G "${{ matrix.generator }}" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+
+      - name: Build Project
+        # Folosim generatorul Ninja pentru a compila
+        run: cmake --build ${{github.workspace}}/build --config Release
+
+      # ATENTIE: Acesta este pasul cheie. Daca acest pas esueaza, codul C++ nu compileaza.
+      # Am adaugat o conditie de 'failure()' pentru a afisa calea executabilului in caz de eroare.
+      - name: Debug - List Build Directory Content on Failure
+        if: ${{ failure() }}
+        run: |
+          echo "Compilarea a esuat. Lista continutului directorului de compilare pentru debug:"
+          find ${{github.workspace}}/build -type f -name "*"
+
+      - name: Run Tests
+        # Presupune ca exista teste definite in CMakeLists.txt (ex: add_test)
+        working-directory: ${{github.workspace}}/build
+        run: ctest --output-on-failure
+
+      # Upload Artifact: Salveaza executabilul 'oop' ca un artefact
+      - name: Upload Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}_executables
+          # Ajusteaza calea catre executabil in functie de sistemul de operare
+          path: ${{ github.workspace }}/build/${{ runner.os == 'Windows' && 'Release/' || '' }}oop${{ runner.os == 'Windows' && '.exe' || '' }}
