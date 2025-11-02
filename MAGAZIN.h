@@ -12,7 +12,7 @@ private:
     std::vector<Comanda> comenzi;
 
 public:
-    Magazin(const std::string& n);
+   explicit Magazin(const std::string& n);
     Magazin(const Magazin& other);
     Magazin& operator=(const Magazin& other);
     ~Magazin() = default;

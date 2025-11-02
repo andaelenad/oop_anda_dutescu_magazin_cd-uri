@@ -12,7 +12,7 @@ private:
     std::string email;
 
 public:
-    Client(const std::string& n, const std::string& e = "");
+    explicit Client(const std::string& n, const std::string& e = "");
 
     Client(const Client& other);
     Client& operator=(const Client& other);

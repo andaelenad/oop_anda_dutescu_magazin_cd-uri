@@ -30,10 +30,11 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
         if (!std::getline(fin, line)) break;
         if (line.empty()) continue;
 
-        std::string album, artist;
-        double pret = 0.0;
-
+        // Mutate în interiorul try (variabilaScope rezolvat)
         try {
+            std::string album, artist;
+            double pret = 0.0;
+
             size_t lastSpace = line.find_last_of(' ');
             if (lastSpace == std::string::npos || lastSpace == line.length() - 1) {
                 throw std::invalid_argument("Linie CD fara pret sau format incorect.");
@@ -68,6 +69,7 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
         magazin.adaugaComanda(comanda);
     }
 }
+
 
 int main() {
     std::ifstream fin("tastatura.txt");
