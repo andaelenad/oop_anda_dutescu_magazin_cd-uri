@@ -1,9 +1,9 @@
 #include "MAGAZIN.h"
-#include <iostream>
 #include <algorithm>
 #include <iomanip>
 #include <map>
 #include <string>
+#include <iostream>
 
 Magazin::Magazin(const std::string& n) : nume(n) {}
 
@@ -33,6 +33,21 @@ int Magazin::numarComenzi() const {
     return comenzi.size();
 }
 
+// Funcția care folosește Comanda::adaugaCD()
+bool Magazin::actualizeazaComanda(const Client& client, const CD& cd_nou) {
+    auto it = std::find_if(comenzi.begin(), comenzi.end(),
+        [&client](Comanda& c) {
+            return c.getClient().getNume() == client.getNume();
+        }
+    );
+
+    if (it != comenzi.end()) {
+        it->adaugaCD(cd_nou); // Utilizarea Comanda::adaugaCD()
+        return true;
+    }
+    return false;
+}
+
 void Magazin::raportClientiTop(int topN) const {
     std::cout << "\n--- RAPORT TOP " << topN << " CLIENTI (Nr. CD-uri cumparate) ---\n";
     std::map<std::string, int> clientCDCounts;
@@ -50,7 +65,6 @@ void Magazin::raportClientiTop(int topN) const {
         return a.second > b.second;
     });
     for (size_t i = 0; i < static_cast<size_t>(topN) && i < sortedClients.size(); ++i) {
-
         std::cout << (i + 1) << ". " << sortedClients[i].first
                   << " (CD-uri: " << sortedClients[i].second << ")\n";
     }

@@ -6,9 +6,9 @@
 #include <fstream>
 #include <vector>
 #include <string>
-//#include <sstream>
+#include <sstream>
 #include <stdexcept>
-//#include <algorithm>
+#include <algorithm>
 #include <iomanip>
 
 void citesteComanda(std::ifstream& fin, Magazin& magazin) {
@@ -30,10 +30,9 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
         if (!std::getline(fin, line)) break;
         if (line.empty()) continue;
 
-        // Mutate în interiorul try (variabilaScope rezolvat)
         try {
             std::string album, artist;
-            double pret = 0.0;
+            double pret = 0.0; // Corecție Cppcheck: variabilă mutată în scop
 
             size_t lastSpace = line.find_last_of(' ');
             if (lastSpace == std::string::npos || lastSpace == line.length() - 1) {
@@ -69,7 +68,6 @@ void citesteComanda(std::ifstream& fin, Magazin& magazin) {
         magazin.adaugaComanda(comanda);
     }
 }
-
 
 int main() {
     std::ifstream fin("tastatura.txt");
@@ -113,11 +111,37 @@ int main() {
         }
     }
 
-    std::cout << "\n[Test Regula Celor 5]\n";
+
+    std::cout << "\n[Utilizare Functii Suplimentare]\n";
+
+
+    Client clientPentruActualizare("Client Fidel", "fidel@magazin.ro");
+    CD cdDeAdaugat("Noutate", "The Fix", 99.99);
+
+    if (magazin.numarComenzi() == 0) {
+
+        std::vector<CD> listaInitiala;
+        listaInitiala.emplace_back("Primul", "Initial", 10.0);
+        magazin.adaugaComanda(Comanda(clientPentruActualizare, listaInitiala));
+        std::cout << "Creat comanda initiala pentru test.\n";
+    }
+
+
+    bool succes = magazin.actualizeazaComanda(clientPentruActualizare, cdDeAdaugat);
+
+    if (succes) {
+        std::cout << "Comanda clientului '" << clientPentruActualizare.getNume()
+                  << "' a fost actualizata cu noul CD.\n";
+    } else {
+        std::cout << "Nu s-a gasit o comanda a clientului pentru actualizare.\n";
+    }
+
 
 
     return 0;
 }
+
+
 
 
 

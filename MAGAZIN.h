@@ -12,7 +12,7 @@ private:
     std::vector<Comanda> comenzi;
 
 public:
-   explicit Magazin(const std::string& n);
+    explicit Magazin(const std::string& n);
     Magazin(const Magazin& other);
     Magazin& operator=(const Magazin& other);
     ~Magazin() = default;
@@ -21,7 +21,13 @@ public:
     double venitTotal() const;
     int numarComenzi() const;
 
-    // functiile complexe
+
+    std::vector<Comanda>& getComenzi() { return comenzi; }
+
+    // Funcție nouă pentru a folosi Comanda::adaugaCD()
+    bool actualizeazaComanda(const Client& client, const CD& cd_nou);
+
+
     void raportClientiTop(int topN) const;
     std::vector<Comanda> filtreazaComenziDupaArtist(const std::string& artistCautat) const;
 
