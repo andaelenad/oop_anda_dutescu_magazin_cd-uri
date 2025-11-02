@@ -4,6 +4,7 @@
 #include "COMANDA.h"
 #include <vector>
 #include <ostream>
+#include <string>
 
 class Magazin {
 private:
@@ -20,8 +21,11 @@ public:
     double venitTotal() const;
     int numarComenzi() const;
 
+    // functiile complexe
+    void raportClientiTop(int topN) const;
+    std::vector<Comanda> filtreazaComenziDupaArtist(const std::string& artistCautat) const;
+
     friend std::ostream& operator<<(std::ostream& os, const Magazin& m);
 };
 
 #endif
-
