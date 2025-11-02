@@ -112,14 +112,10 @@ int main() {
         }
     }
 
-    Client clientOriginal("Test Client", Adresa("Strada Testului", "1"), "test@email.com");
-    Client clientCopie = clientOriginal;
-    Client altClient("Altul", Adresa("Altundeva", "0"), "altul@email.com");
-    altClient = clientOriginal;
+
 
     std::cout << "\n[Test Regula Celor 5]\n";
-    std::cout << "Client Original: " << clientOriginal.getNume() << "\n";
-    std::cout << "Client Copie (Op=): " << altClient.getNume() << "\n";
+
 
     return 0;
 }
