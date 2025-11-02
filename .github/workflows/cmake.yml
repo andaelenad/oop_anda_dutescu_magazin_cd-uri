@@ -24,7 +24,8 @@ jobs:
 
       - name: Run Cppcheck
         # Cppcheck does a quick check for basic C++ errors
-        run: cppcheck --enable=all --xml --xml-file=cppcheck.xml .
+        # Am corectat sintaxa: -o este folosit în loc de --xml-file
+        run: cppcheck --enable=all --xml -o cppcheck.xml .
 
       # ATENȚIE: Clang-Tidy este dezactivat temporar.
       # Trebuie reactivat după ce build_matrix trece.
@@ -83,8 +84,14 @@ jobs:
       - name: Install Ninja (Linux/macOS)
         if: runner.os != 'Windows'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build
+          if [ "${{ runner.os }}" == "Linux" ]; then
+            sudo apt-get update
+            sudo apt-get install -y ninja-build
+          elif [ "${{ runner.os }}" == "macOS" ]; then
+            # Use Homebrew on macOS
+            # Brew este adesea deja instalat
+            brew install ninja || true # Folosim '|| true' ca fallback in caz ca e deja instalat
+          fi
 
       # --- Configure (CMake) ---
       - name: Configure CMake
