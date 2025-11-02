@@ -16,7 +16,6 @@ set(PROJECT_SOURCES
         COMANDA.cpp
         MAGAZIN.cpp
         ADRESA.cpp
-
 )
 
 
