@@ -1,28 +1,31 @@
+
 #ifndef COMANDA_H
 #define COMANDA_H
 
 #include "CLIENT.h"
-#include "CD.h"
-#include <vector>
+#include "COS_CUMPARATURI.h" // Essential: Foloseste cosul polimorfic
 #include <ostream>
+#include <vector>
 
 class Comanda {
 private:
     Client client;
-    std::vector<CD> cduri;
+    CosCumparaturi cos; // se duce pe CosCumparaturi
 
 public:
-    Comanda(const Client& c, const std::vector<CD>& cds);
-    Comanda(const Comanda& other);
-    Comanda& operator=(const Comanda& other);
+    Comanda(const Client& c, CosCumparaturi c_data);
     ~Comanda() = default;
 
-    void adaugaCD(const CD& cd);
-    double calculeazaTotal() const;
-    int numarCDuri() const;
+
+    Comanda(const Comanda& other);
+    Comanda& operator=(Comanda other);
+
+    double calculeazaTotalCuTaxe() const;
+    int numarProduse() const;
 
     const Client& getClient() const;
-    const std::vector<CD>& getCDuri() const;
+    const CosCumparaturi& getCos() const { return cos; }
+    CosCumparaturi& getCos() { return cos; }
 
     friend std::ostream& operator<<(std::ostream& os, const Comanda& com);
 };

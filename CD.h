@@ -1,31 +1,28 @@
 #ifndef CD_H
 #define CD_H
 
-#include <string>
-#include <ostream>
+#include "PRODUSMUZICAL.h"
 
-class CD {
+class CD : public ProdusMuzical {
 private:
-    std::string nume;
-    std::string artist;
-    double pret;
-
-    static int numarTotalCDuriVandute;
+    int nr_piese;
 
 public:
-    CD(const std::string& n, const std::string& a, double p);
+    CD(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int nr_piese);
     CD(const CD& other);
-    CD& operator=(const CD& other);
-    ~CD() = default;
 
-    double getPret() const;
-    const std::string& getNume() const;
-    const std::string& getArtist() const;
+    CD& operator=(CD other);
 
-    static int getNumarTotalCDuri();
-    bool operator>(const CD& other) const;
+    ProdusMuzical* clone() const override;
 
-    friend std::ostream& operator<<(std::ostream& os, const CD& cd);
+    double calculeazaTaxa() const override;
+
+protected:
+    void afiseazaDetalii(std::ostream& os) const override;
+
+private:
+
+    friend void swap(CD& first, CD& second);
 };
 
-#endif
+#endif // CD_H

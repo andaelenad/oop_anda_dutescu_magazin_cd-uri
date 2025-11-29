@@ -1,93 +1,107 @@
 Anda Dutescu
 anda.dutescu@gmail.com
 11
-Veriga lipsa Methadon 3000 55
-Sindromul Tourette Cheloo 45
-Condoleante Ombladon 50
-In sfarsit Vlad Dobrescu 60
-Deliric x Silent Strike 50
-Usile vol.1 Specii 40
-Dupa blocuri B.U.G. Mafia 70
-Confort 3 Parazitii 65
-Subcarpati Subcarpati 55
-Probe Audio GuessWho 45
-Chei Verbale Zale 50
+Veriga_lipsa Methadon3000 55.00 10
+Sindromul_Tourette Cheloo 45.00 10
+Condoleante Ombladon 50.00 10
+In_sfarsit VladDobrescu 60.00 10
+Deliric_x_Silent_Strike DeliricxSilentStrike 50.00 10
+Usile_vol.1 Specii 40.00 10
+Dupa_blocuri B.U.G.Mafia 70.00 10
+Confort_3 Parazitii 65.00 10
+Subcarpati Subcarpati 55.00 10
+Probe_Audio GuessWho 45.00 10
+Chei_Verbale Zale 50.00 10
 
 Maria Andonie
 maria.andonie@gmail.com
 2
-Amenintarea Maimutei Specii x Kazi Ploae 60
-Slayer Ian 80
+Amenintarea_Maimutei SpeciixKaziPloae 60.00 10
+Slayer Ian 80.00 10
 
 Maria Cuza
 maria.cuza@gmail.com
 1
-Lama Crima Killa Fonic 75
+Lama_Crima Killa_Fonic 75.00 10
 
 Andrei Popa
-andrei.popa@email.com   <--- Aici pui email-ul
+andrei.popa@email.com
 3
-Reactii Adverse Carbon 35
-Alchimia Veninului Cedry2k 40
-Operatiunea Monstru Deceneu 38
+Reactii_Adverse Carbon 35.00 10
+Alchimia_Veninului Cedry2k 40.00 10
+Operatiunea_Monstru Deceneu 38.00 10
 
 Ioana Radu
 ioana.radu@email.com
 3
-Nopti prea lungi Nimeni Altu 32
-Eroism Neautorizat Underman 30
-Nu intru in banii de tigari Ryu 28
+Nopti_prea_lungi NimeniAltu 32.00 10
+Eroism_Neautorizat Underman 30.00 10
+Nu_intru_in_banii_de_tigari Ryu 28.00 10
 
 Mihai Ionescu
 mihai.ionescu@gmail.com
 3
-Dragoste Sau Frica Haarp Cord 33
-2012 2012 31
-Imperiul Lianelor Specii 29
+Dragoste_Sau_Frica HaarpCord 33.00 10
+2012 2012 31.00 10
+Imperiul_Lianelor Specii 29.00 10
 
 Elena Georgescu
 elena.georgescu@gmail.com
 3
-Dificultati Tehnice CTC 34
-Cuvintecevindeca Cedry2k 30
-Operatiunea Monstru Deceneu 36
+Dificultati_Tehnice CTC 34.00 10
+Cuvintecevindeca Cedry2k 30.00 10
+Operatiunea_Monstru Deceneu 36.00 10
 
 Vlad Stan
 vlad.stan@gmail.com
 3
-Bine ai venit in paradis La Familia 35
-Suta Nici o problema Parazitii 33
-In mediul vitreg Raku 33
+Bine_ai_venit_in_paradis LaFamilia 35.00 10
+Suta_Nici_o_problema Parazitii 33.00 10
+In_mediul_vitreg Raku 33.00 10
 
 Andreea Munteanu
 andreea.munteanu@yahoo.com
 4
-Poveste fără sfârșit Bitză 45
-De la Est la Vest Puya 40
-Tărâmul de nisip Morometzii 35
-Înregistrări din subteran Kazi Ploae 48
+Poveste_fara_sfarsit Bitza 45.00 10
+De_la_Est_la_Vest Puya 40.00 10
+Taramul_de_nisip Morometzii 35.00 10
+Diviziunea_Tentei KaziPloae 48.00 10
 
 Alexandru Dumitru
 alexandru.dumitru@email.com
 2
-Drumul spre succes DOC 55
-În Spatele Blocului Vescan 30
+Drumul_spre_succes DOC 55.00 10
+In_Spatele_Blocului Vescan 30.00 10
 
 Cristina Popescu
 cristina.popescu@gmail.com
 1
-Sufletul Orașului Pacha Man 42
+Sufletul_Orasului PachaMan 42.00 10
 
 Gabriel Mihai
- gabriel.mihai@outlook.com
-  3
-Scapat de Sub Control Deliric 38
-Poezie Periculoasă Grasu XXL 40
-Secretul din Atom C.T.C. 50
+gabriel.mihai@outlook.com
+3
+Scapat_de_Sub_Control Deliric 38.00 10
+Poezie_Periculoasa GrasuXXL 40.00 10
+Secretul_din_Atom C.T.C. 50.00 10
 
-Diana Enache diana.enache@email.com
+Diana Enache
+diana.enache@email.com
 2
-Fiul Omului AFO 44
-In sfarsit Vlad Dobrescu 49
+Fiul_Omului AFO 44.00 10
+In_sfarsit VladDobrescu 49.00 10
+
+Sabina Brinzei
+sabinabr@gmail.com
+3
+OK!Computer Radiohead 190.00 10
+China DAniMocanu 900.00 10
+Album LoredanaGroza 67.00 10
+
+Maria Cojocaru
+mariarurig@gmail.com
+2
+In_Lipsa_Mea Smiley 90.00 10
+Plec_pe_Marte Smiley 80.00 10
 
 

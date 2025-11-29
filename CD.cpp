@@ -1,49 +1,37 @@
 #include "CD.h"
 #include <iostream>
 #include <iomanip>
+#include <utility>
+#include <algorithm>
 
-int CD::numarTotalCDuriVandute = 0;
-
-CD::CD(const std::string& n, const std::string& a, double p)
-    : nume(n), artist(a), pret(p) {
-    numarTotalCDuriVandute++;
+CD::CD(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int nr_piese)
+    : ProdusMuzical(titlu, artist, an_aparitie, gen, pret), nr_piese(nr_piese) {
 }
 
 CD::CD(const CD& other)
-    : nume(other.nume), artist(other.artist), pret(other.pret) {}
+    : ProdusMuzical(other), nr_piese(other.nr_piese) {
+}
 
-CD& CD::operator=(const CD& other) {
-    if (this != &other) {
-        this->nume = other.nume;
-        this->artist = other.artist;
-        this->pret = other.pret;
-    }
+void swap(CD& first, CD& second) {
+    using std::swap;
+
+    swap(first.nr_piese, second.nr_piese);
+}
+
+CD& CD::operator=(CD other) {
+    swap(*this, other);
     return *this;
 }
 
-double CD::getPret() const {
-    return pret;
+ProdusMuzical* CD::clone() const {
+    return new CD(*this);
 }
 
-const std::string& CD::getNume() const {
-    return nume;
+double CD::calculeazaTaxa() const {
+    return getPret() * 0.05; // Taxa 5%
 }
 
-const std::string& CD::getArtist() const {
-    return artist;
-}
-
-int CD::getNumarTotalCDuri() {
-    return numarTotalCDuriVandute;
-}
-
-bool CD::operator>(const CD& other) const {
-    return this->pret > other.pret;
-}
-
-std::ostream& operator<<(std::ostream& os, const CD& cd) {
-    os << "  -> Album: " << cd.nume
-       << " | Artist: " << cd.artist
-       << " | Pret: " << std::fixed << std::setprecision(2) << cd.pret << " RON";
-    return os;
+void CD::afiseazaDetalii(std::ostream& os) const {
+    os << "CD - " << getTitlu() << " de " << getArtist() << " (" << getAnAparitie() << ", Gen: " << getGen() << ")";
+    os << " | Piese: " << nr_piese;
 }

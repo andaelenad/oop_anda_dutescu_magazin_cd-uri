@@ -35,6 +35,15 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         CD.cpp
         COMANDA.cpp
         MAGAZIN.cpp
+        PRODUSMUZICAL.cpp
+        PRODUSMUZICAL.h
+        VINIL.cpp
+        VINIL.h
+        CASETA.cpp
+        CASETA.h
+        COS_CUMPARATURI.cpp
+        COS_CUMPARATURI.h
+        EroriMuzicale.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

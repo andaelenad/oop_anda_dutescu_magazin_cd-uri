@@ -1,54 +1,41 @@
 #include "COMANDA.h"
 #include <iostream>
 #include <iomanip>
+#include <utility>
 
-Comanda::Comanda(const Client& c, const std::vector<CD>& cds)
-    : client(c), cduri(cds) {}
+Comanda::Comanda(const Client& c, CosCumparaturi c_data)
+    : client(c), cos(std::move(c_data)) {}
 
 Comanda::Comanda(const Comanda& other)
-    : client(other.client), cduri(other.cduri) {}
+    : client(other.client), cos(other.cos) {}
 
-Comanda& Comanda::operator=(const Comanda& other) {
-    if (this != &other) {
-        this->client = other.client;
-        this->cduri = other.cduri;
-    }
+Comanda& Comanda::operator=(Comanda other) {
+    std::swap(client, other.client);
+    std::swap(cos, other.cos);
     return *this;
 }
 
-double Comanda::calculeazaTotal() const {
-    double total = 0.0;
-    for (const auto& cd : cduri) {
-        total += cd.getPret();
-    }
-    return total;
+double Comanda::calculeazaTotalCuTaxe() const {
+    return cos.calculeazaTotalComanda(); // polimorfism pe CosCumparaturi
 }
 
-void Comanda::adaugaCD(const CD& cd) {
-    cduri.push_back(cd);
-}
-
-int Comanda::numarCDuri() const {
-    return cduri.size();
+int Comanda::numarProduse() const {
+    return cos.produse.size();
 }
 
 const Client& Comanda::getClient() const {
     return client;
 }
 
-const std::vector<CD>& Comanda::getCDuri() const {
-    return cduri;
-}
-
 std::ostream& operator<<(std::ostream& os, const Comanda& com) {
     os << "--- Detalii Comanda ---\n";
     os << com.client;
-    os << "\n  Produse (Total " << com.numarCDuri() << "):\n";
+    os << "\n  Produse (Total " << com.numarProduse() << " articole):\n";
 
-    for (const auto& cd : com.cduri) {
-        os << cd << "\n";
+    for (const auto& p : com.cos.produse) {
+        p->afiseaza(); // polimorfie
     }
 
-    os << "  TOTAL COMANDA: " << std::fixed << std::setprecision(2) << com.calculeazaTotal() << " RON\n";
+    os << "  TOTAL FINAL (inclusiv taxe): " << std::fixed << std::setprecision(2) << com.calculeazaTotalCuTaxe() << " RON\n";
     return os;
 }
