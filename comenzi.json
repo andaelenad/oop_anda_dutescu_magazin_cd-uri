@@ -1,0 +1,324 @@
+[
+  {
+    "client": {
+      "nume": "Anda Dutescu",
+      "email": "anda.dutescu@gmail.com"
+    },
+    "numar_produse": 5,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Veriga_lipsa",
+        "artist": "Methadon3000",
+        "pret": 55.00,
+        "viteza": 10,
+        "an_aparitie": 2018,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "Sindromul_Tourette",
+        "artist": "Cheloo",
+        "pret": 145.00,
+        "rpm": 33,
+        "an_aparitie": 2003,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "CASETA",
+        "titlu": "Condoleante",
+        "artist": "Ombladon",
+        "pret": 50.00,
+        "tip_banda": "Normal",
+        "an_aparitie": 2004,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Tricou_Logo_Nou",
+        "artist": "BUG_Mafia",
+        "pret": 85.00,
+        "culoare": "Negru",
+        "material": "Bumbac",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      },
+      {
+        "tip": "CD",
+        "titlu": "In_sfarsit",
+        "artist": "VladDobrescu",
+        "pret": 60.00,
+        "viteza": 10,
+        "an_aparitie": 2020,
+        "gen": "Hip-Hop"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Maria Andonie",
+      "email": "maria.andonie@gmail.com"
+    },
+    "numar_produse": 3,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Amenintarea_Maimutei",
+        "artist": "SpeciixKaziPloae",
+        "pret": 60.00,
+        "viteza": 10,
+        "an_aparitie": 2011,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "Slayer",
+        "artist": "Ian",
+        "pret": 180.00,
+        "rpm": 45,
+        "an_aparitie": 2023,
+        "gen": "Rock"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Hanorac_Negru",
+        "artist": "Parazitii",
+        "pret": 160.00,
+        "culoare": "Negru",
+        "material": "Lana",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Ioana Radu",
+      "email": "ioana.radu@email.com"
+    },
+    "numar_produse": 4,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Nopti_prea_lungi",
+        "artist": "NimeniAltu",
+        "pret": 32.00,
+        "viteza": 10,
+        "an_aparitie": 2017,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "Eroism_Neautorizat",
+        "artist": "Underman",
+        "pret": 130.00,
+        "rpm": 33,
+        "an_aparitie": 2019,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "CASETA",
+        "titlu": "Nu_intru_in_banii_de_tigari",
+        "artist": "Ryu",
+        "pret": 28.00,
+        "tip_banda": "CrO2",
+        "an_aparitie": 2016,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "CD",
+        "titlu": "Probe_Audio",
+        "artist": "GuessWho",
+        "pret": 45.00,
+        "viteza": 10,
+        "an_aparitie": 2009,
+        "gen": "Hip-Hop"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Elena Georgescu",
+      "email": "elena.georgescu@gmail.com"
+    },
+    "numar_produse": 4,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Dificultati_Tehnice",
+        "artist": "CTC",
+        "pret": 34.00,
+        "viteza": 10,
+        "an_aparitie": 2004,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "Cuvintecevindeca",
+        "artist": "Cedry2k",
+        "pret": 130.00,
+        "rpm": 45,
+        "an_aparitie": 2012,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Sapca_Semnatura",
+        "artist": "Deceneu",
+        "pret": 45.00,
+        "culoare": "Alb",
+        "material": "Bumbac",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      },
+      {
+        "tip": "CASETA",
+        "titlu": "Operatiunea_Monstru",
+        "artist": "Deceneu",
+        "pret": 36.00,
+        "tip_banda": "Normal",
+        "an_aparitie": 2008,
+        "gen": "Hip-Hop"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Alexandru Dumitru",
+      "email": "alexandru.dumitru@email.com"
+    },
+    "numar_produse": 3,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Drumul_spre_succes",
+        "artist": "DOC",
+        "pret": 55.00,
+        "viteza": 10,
+        "an_aparitie": 2010,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "In_Spatele_Blocului",
+        "artist": "Vescan",
+        "pret": 130.00,
+        "rpm": 33,
+        "an_aparitie": 2014,
+        "gen": "Hip-Hop"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Poster_XXL",
+        "artist": "Vescan",
+        "pret": 25.00,
+        "culoare": "Multicolor",
+        "material": "Hartie",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Sabina Brinzei",
+      "email": "sabinabr@gmail.com"
+    },
+    "numar_produse": 3,
+    "produse": [
+      {
+        "tip": "VINIL",
+        "titlu": "OK!Computer",
+        "artist": "Radiohead",
+        "pret": 190.00,
+        "rpm": 33,
+        "an_aparitie": 1997,
+        "gen": "Rock"
+      },
+      {
+        "tip": "CD",
+        "titlu": "China",
+        "artist": "DAniMocanu",
+        "pret": 90.00,
+        "viteza": 10,
+        "an_aparitie": 2024,
+        "gen": "Manele"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Geaca_Piele_Ed_Lim",
+        "artist": "LoredanaGroza",
+        "pret": 900.00,
+        "culoare": "Negru",
+        "material": "Piele",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Maria Cojocaru",
+      "email": "mariarurig@gmail.com"
+    },
+    "numar_produse": 4,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "In_Lipsa_Mea",
+        "artist": "Smiley",
+        "pret": 90.00,
+        "viteza": 10,
+        "an_aparitie": 2020,
+        "gen": "Pop"
+      },
+      {
+        "tip": "VINIL",
+        "titlu": "Plec_pe_Marte",
+        "artist": "Smiley",
+        "pret": 180.00,
+        "rpm": 45,
+        "an_aparitie": 2022,
+        "gen": "Pop"
+      },
+      {
+        "tip": "CASETA",
+        "titlu": "Album_De_Colectie",
+        "artist": "Smiley",
+        "pret": 80.00,
+        "tip_banda": "CrO2",
+        "an_aparitie": 2015,
+        "gen": "Pop"
+      },
+      {
+        "tip": "MERCHANDISE",
+        "titlu": "Breloc_Chei",
+        "artist": "Smiley",
+        "pret": 15.00,
+        "culoare": "Argint",
+        "material": "Metal",
+        "an_aparitie": 2024,
+        "gen": "Merchandise"
+      }
+    ]
+  },
+  {
+    "client": {
+      "nume": "Test Pret Invalid",
+      "email": "test.invalid@email.com"
+    },
+    "numar_produse": 1,
+    "produse": [
+      {
+        "tip": "CD",
+        "titlu": "Produs_Negativ",
+        "artist": "ArtistX",
+        "pret": -10.00,
+        "viteza": 10,
+        "an_aparitie": 2024,
+        "gen": "Pop",
+        "comentariu_exceptie": "Acest produs va declansa EroarePretInvalid in constructorul CD-ului."
+      }
+    ]
+  }
+]

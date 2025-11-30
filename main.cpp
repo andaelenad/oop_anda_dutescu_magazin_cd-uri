@@ -8,6 +8,8 @@
 #include "COMANDA.h"
 #include "MAGAZIN.h"
 #include "EroriMuzicale.h"
+
+// Librarii Standard
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -19,176 +21,110 @@
 #include <algorithm>
 #include <utility>
 
+// Biblioteca Externa JSON
+#include "extern/json.hpp"
+
 using namespace std;
+using json = nlohmann::json;
 
-unique_ptr<ProdusMuzical> parseProdus(const string& line) {
-    if (line.empty()) {
-        throw invalid_argument("Linie produs goala.");
+// Functie de utilitate pentru a crea un produs dintr-un obiect JSON
+unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
+    // Extragerea atributelor comune
+    string tip = item.at("tip").get<string>();
+    string titlu = item.at("titlu").get<string>();
+    string artist = item.at("artist").get<string>();
+    int anAparitie = item.at("an_aparitie").get<int>();
+    string gen = item.at("gen").get<string>();
+    double pret = item.at("pret").get<double>();
+
+    // Logica polimorfica de creare a obiectelor
+    if (tip == "CD") {
+        int nrPiese = item.at("viteza").get<int>();
+        return make_unique<CD>(titlu, artist, anAparitie, gen, pret, nrPiese);
     }
-
-    stringstream ss(line);
-    string tipProdus;
-    ss >> tipProdus;
-
-    if (tipProdus.empty()) {
-        throw invalid_argument("Nu s-a putut identifica tipul produsului.");
+    else if (tip == "VINIL") {
+        int rpm = item.at("rpm").get<int>();
+        return make_unique<Vinil>(titlu, artist, anAparitie, gen, pret, rpm);
     }
-
-    string restulLiniei;
-    getline(ss >> ws, restulLiniei);
-
-    if (restulLiniei.empty()) {
-        throw EroareDateIncomplete("Date lipsa dupa tipul produsului.");
+    else if (tip == "CASETA") {
+        string tipBanda = item.at("tip_banda").get<string>();
+        return make_unique<Caseta>(titlu, artist, anAparitie, gen, pret, tipBanda);
     }
-
-    size_t posPret = restulLiniei.find('.');
-    if (posPret == string::npos) {
-        throw EroareDateIncomplete("Nu s-a putut găsi prețul (format numeric cu .).");
+    else if (tip == "MERCHANDISE") {
+        string culoare = item.at("culoare").get<string>();
+        string material = item.at("material").get<string>();
+        return make_unique<Merchandise>(titlu, artist, anAparitie, gen, pret, culoare, material);
     }
-
-    size_t posStartPretToken = restulLiniei.rfind(' ', posPret);
-    if (posStartPretToken == string::npos) {
-        throw EroareDateIncomplete("Format invalid in jurul pretului.");
+    else {
+        throw EroareFormatNecunoscut("Tip de produs JSON necunoscut: " + tip);
     }
+}
 
-    string titluArtistRaw = restulLiniei.substr(0, posStartPretToken);
-    string parametriRaw = restulLiniei.substr(posStartPretToken + 1);
+// Functie de Nivel Inalt (Citire Comenzi) - Utilizeaza Biblioteca Externa JSON
+void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
+    std::ifstream f(numeFisier);
 
-    string titlu, artist;
-    stringstream ssTitluArtist(titluArtistRaw);
-
-    vector<string> titluArtistTokens;
-    string token;
-    while (ssTitluArtist >> token) {
-        titluArtistTokens.push_back(token);
-    }
-
-    if (titluArtistTokens.size() < 2) {
-        throw EroareDateIncomplete("Titlu sau Artist lipsa.");
-    }
-
-    artist = titluArtistTokens.back();
-    titluArtistTokens.pop_back();
-
-    titlu = titluArtistTokens[0];
-    for (size_t i = 1; i < titluArtistTokens.size(); ++i) {
-        titlu += " " + titluArtistTokens[i];
+    if (!f.is_open()) {
+        throw EroareDateIncomplete("Fisierul JSON nu a putut fi deschis. Verificati calea.");
     }
 
     try {
-        stringstream ssPret(parametriRaw);
-        string pretStr;
-        if (!(ssPret >> pretStr)) throw EroareDateIncomplete("Pretul nu a putut fi citit ca prim token.");
-        double pret = stod(pretStr);
+        json comenziJSON = json::parse(f);
 
-        string restulParametri;
-        getline(ssPret >> ws, restulParametri);
-
-        stringstream ssRestul(restulParametri);
-        vector<string> parametriTokens;
-        while (ssRestul >> token) {
-            parametriTokens.push_back(token);
+        if (!comenziJSON.is_array()) {
+             throw EroareDateIncomplete("Fisierul JSON nu contine un array de comenzi.");
         }
 
-        if (parametriTokens.size() < 2) {
-            throw EroareDateIncomplete("Lipsesc Anul sau Genul.");
-        }
+        for (const auto& comandaItem : comenziJSON) {
 
-        string gen = parametriTokens.back(); parametriTokens.pop_back();
-        int anAparitie = stoi(parametriTokens.back()); parametriTokens.pop_back();
+            string numeClient = comandaItem.at("client").at("nume").get<string>();
+            string emailClient = comandaItem.at("client").at("email").get<string>();
+            Client client(numeClient, emailClient);
 
-        vector<string> paramSpecifici = parametriTokens;
+            CosCumparaturi cosComanda;
 
-        if (tipProdus == "CD") {
-            if (paramSpecifici.size() < 1) throw EroareDateIncomplete("Lipseste numarul de piese CD.");
-            int nrPiese = stoi(paramSpecifici[0]);
-            return make_unique<CD>(titlu, artist, anAparitie, gen, pret, nrPiese);
+            for (const auto& produsItem : comandaItem.at("produse")) {
+                try {
+                    cosComanda.adaugaProdus(createProdusFromJSON(produsItem));
+                }
+                catch (const EroarePretInvalid& e) {
+                     cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
+                          << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
+                }
+                catch (const EroareMuzicala& e) {
+                     cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
+                          << " (Produs ignorat)\n";
+                }
+            }
+
+            if (!cosComanda.produse.empty()) {
+                Comanda comanda(client, std::move(cosComanda));
+                magazin.adaugaComanda(comanda);
+            }
         }
-        else if (tipProdus == "VINIL") {
-            if (paramSpecifici.size() < 1) throw EroareDateIncomplete("Lipseste RPM Vinil.");
-            int rpm = stoi(paramSpecifici[0]);
-            return make_unique<Vinil>(titlu, artist, anAparitie, gen, pret, rpm);
-        }
-        else if (tipProdus == "CASETA") {
-            if (paramSpecifici.size() < 1) throw EroareDateIncomplete("Lipseste tipul de banda Caseta.");
-            string tipBanda = paramSpecifici[0];
-            return make_unique<Caseta>(titlu, artist, anAparitie, gen, pret, tipBanda);
-        }
-        else if (tipProdus == "MERCHANDISE") {
-            if (paramSpecifici.size() < 2) throw EroareDateIncomplete("Lipsesc culoarea si materialul Merchandise.");
-            string culoare = paramSpecifici[0];
-            string material = paramSpecifici[1];
-            return make_unique<Merchandise>(titlu, artist, anAparitie, gen, pret, culoare, material);
-        }
-        else {
-            throw EroareFormatNecunoscut("Tip de produs necunoscut: " + tipProdus);
-        }
-    } catch (const EroareMuzicala&) {
-        throw;
-    } catch (const exception& e) {
-        throw EroareDateIncomplete("Eroare la conversia finala/parametri pentru produs: " + string(e.what()));
+    }
+    catch (const json::exception& e) {
+        throw EroareDateIncomplete("Eroare la parsarea datelor JSON: " + std::string(e.what()));
+    }
+    catch (const exception& e) {
+        throw EroareDateIncomplete("Eroare neasteptata la citirea comenzilor: " + std::string(e.what()));
     }
 }
 
-
-void citesteComanda(ifstream& fin, Magazin& magazin) {
-    string line;
-
-    if (!getline(fin, line) || line.empty() || line.starts_with("#")) return;
-    string numeClient = line;
-
-    if (!getline(fin, line) || line.empty() || line.starts_with("#")) return;
-    string emailClient = line;
-
-    int n = 0;
-    if (!(fin >> n)) return;
-    fin.ignore();
-
-    CosCumparaturi cosComanda;
-
-    for (int i = 0; i < n; i++) {
-        if (!getline(fin, line)) break;
-        if (line.empty() || line.starts_with("#")) continue;
-
-        try {
-            cosComanda.adaugaProdus(parseProdus(line));
-        } catch (const EroareMuzicala& e) {
-            cerr << "AVERTISMENT la citire (Exceptie Muzicala): " << e.what() << " in linia: " << line << " (Ignorat)\n";
-        } catch (const exception& e) {
-            cerr << "AVERTISMENT la citire (Eroare Generica): " << e.what() << " in linia: " << line << " (Ignorat)\n";
-        }
-    }
-
-    getline(fin, line);
-
-    if (!cosComanda.produse.empty()) {
-        Client client(numeClient, emailClient);
-        Comanda comanda(client, std::move(cosComanda));
-        magazin.adaugaComanda(comanda);
-    }
-}
 
 int main() {
-    ifstream fin("tastatura.txt");
-    if (!fin) {
-        cerr << "EROARE: Nu am putut deschide tastatura.txt.\n";
-        return 1;
-    }
-
     Magazin magazin("Magazin Muzical Polimorfic");
+    const string FISIER_JSON = "comenzi.json";
 
-    cout << ">>> Incarcare date din tastatura.txt (Citire polimorfica)...\n";
+    cout << ">>> Incarcare date din " << FISIER_JSON << " (Biblioteca Externa JSON)...\n";
+    cout << "----------------------------------------------------------------------\n";
 
     try {
-        while (fin.peek() != EOF) {
-            citesteComanda(fin, magazin);
-        }
+        citesteComenziDinJSON(FISIER_JSON, magazin);
     } catch (const exception& e) {
         cerr << "\n[EROARE FATALA LA CITIRE]: " << e.what() << "\n";
-        fin.close();
         return 1;
     }
-    fin.close();
 
     cout << "\n>>> SCENARIU DE UTILIZARE A TUTUROR FUNCTIILOR <<<\n";
     cout << "----------------------------------------------------\n";
@@ -202,7 +138,7 @@ int main() {
     cout << "Venit total magazin: " << fixed << setprecision(2) << magazin.venitTotal() << " RON\n";
     cout << "Total produse muzicale create (Static): " << ProdusMuzical::getNumarTotalProduse() << "\n";
 
-    string artistCautat = "Pink Floyd";
+    string artistCautat = "Cheloo";
     vector<Comanda> comenziFiltrate = magazin.filtreazaComenziDupaArtist(artistCautat);
 
     cout << "\n--- COMENZI FILTRATE DUPA ARTISTUL '" << artistCautat << "' ---\n";
@@ -219,12 +155,13 @@ int main() {
                   << comenziSortate[0].getClient().getNume()
                   << " (" << fixed << setprecision(2) << comenziSortate[0].calculeazaTotalCuTaxe() << " RON)\n";
 
+        // CORECTIE AICI: Folosim indexul [1] pentru o comanda care contine Vinil (dupa sortare)
         cout << "\n--- TEST DYNAMIC_CAST (AFISARE VINILURI) ---\n";
-        magazin.getComenzi()[0].getCos().afiseazaDoarViniluri();
+        cout << "Comanda folosita pentru dynamic_cast: " << comenziSortate[1].getClient().getNume() << "\n";
+        comenziSortate[1].getCos().afiseazaDoarViniluri();
 
         cout << "\n[Test 4 clase derivate & Apelare Getters Produs Muzical]\n";
         for (const auto& p : magazin.getComenzi()[0].getCos().produse) {
-
             cout << "  -> Produs: " << p->getTitlu() << ", Artist: " << p->getArtist()
                  << ", An: " << p->getAnAparitie() << ", Gen: " << p->getGen()
                  << ", Pret ID: " << p->getIdProdus() << "\n";
@@ -239,7 +176,7 @@ int main() {
         cout << "Produs Original ID: " << magazin.getComenzi()[0].getCos().produse[0]->getIdProdus() << "\n";
         cout << "Produs Clonat ID: " << produsClonat->getIdProdus() << "\n";
 
-        Client clientTarget(magazin.getComenzi()[0].getClient().getNume(), magazin.getComenzi()[0].getClient().getEmail());
+        Client clientTarget("Anda Dutescu", "anda.dutescu@gmail.com");
         CD cd_nou("Update Test", "Artist Nou", 2025, "Pop", 100.00, 15);
         bool actualizat = magazin.actualizeazaComanda(clientTarget, cd_nou);
         cout << "\n--- TEST actualizeazaComanda (Magazin) ---\n";
