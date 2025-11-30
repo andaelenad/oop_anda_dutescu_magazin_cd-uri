@@ -44,6 +44,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         COS_CUMPARATURI.cpp
         COS_CUMPARATURI.h
         EroriMuzicale.h
+        MERCHANDISE.cpp
+        MERCHANDISE.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

@@ -16,6 +16,9 @@ private:
 public:
     Magazin(const std::string& nume);
 
+
+    const std::string& getNume() const { return nume; }
+
     void adaugaComanda(const Comanda& c);
 
     double venitTotal() const;

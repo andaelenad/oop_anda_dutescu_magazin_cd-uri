@@ -1,107 +1,71 @@
 Anda Dutescu
 anda.dutescu@gmail.com
-11
-Veriga_lipsa Methadon3000 55.00 10
-Sindromul_Tourette Cheloo 45.00 10
-Condoleante Ombladon 50.00 10
-In_sfarsit VladDobrescu 60.00 10
-Deliric_x_Silent_Strike DeliricxSilentStrike 50.00 10
-Usile_vol.1 Specii 40.00 10
-Dupa_blocuri B.U.G.Mafia 70.00 10
-Confort_3 Parazitii 65.00 10
-Subcarpati Subcarpati 55.00 10
-Probe_Audio GuessWho 45.00 10
-Chei_Verbale Zale 50.00 10
+5
+CD Veriga_lipsa Methadon3000 55.00 10 2018 Hip-Hop
+VINIL Sindromul_Tourette Cheloo 145.00 33 2003 Hip-Hop
+CASETA Condoleante Ombladon 50.00 Normal 2004 Hip-Hop
+MERCHANDISE Tricou_Logo_Nou BUG_Mafia 85.00 Negru Bumbac 2024 Merchandise
+CD In_sfarsit VladDobrescu 60.00 10 2020 Hip-Hop
+# Linie de separare
 
 Maria Andonie
 maria.andonie@gmail.com
-2
-Amenintarea_Maimutei SpeciixKaziPloae 60.00 10
-Slayer Ian 80.00 10
-
-Maria Cuza
-maria.cuza@gmail.com
-1
-Lama_Crima Killa_Fonic 75.00 10
-
-Andrei Popa
-andrei.popa@email.com
 3
-Reactii_Adverse Carbon 35.00 10
-Alchimia_Veninului Cedry2k 40.00 10
-Operatiunea_Monstru Deceneu 38.00 10
+CD Amenintarea_Maimutei SpeciixKaziPloae 60.00 10 2011 Hip-Hop
+VINIL Slayer Ian 180.00 45 2023 Rock
+MERCHANDISE Hanorac_Negru Parazitii 160.00 Negru Lana 2024 Merchandise
+# Linie de separare
 
 Ioana Radu
 ioana.radu@email.com
-3
-Nopti_prea_lungi NimeniAltu 32.00 10
-Eroism_Neautorizat Underman 30.00 10
-Nu_intru_in_banii_de_tigari Ryu 28.00 10
-
-Mihai Ionescu
-mihai.ionescu@gmail.com
-3
-Dragoste_Sau_Frica HaarpCord 33.00 10
-2012 2012 31.00 10
-Imperiul_Lianelor Specii 29.00 10
+4
+CD Nopti_prea_lungi NimeniAltu 32.00 10 2017 Hip-Hop
+VINIL Eroism_Neautorizat Underman 130.00 33 2019 Hip-Hop
+CASETA Nu_intru_in_banii_de_tigari Ryu 28.00 CrO2 2016 Hip-Hop
+CD Probe_Audio GuessWho 45.00 10 2009 Hip-Hop
+# Linie de separare
 
 Elena Georgescu
 elena.georgescu@gmail.com
-3
-Dificultati_Tehnice CTC 34.00 10
-Cuvintecevindeca Cedry2k 30.00 10
-Operatiunea_Monstru Deceneu 36.00 10
-
-Vlad Stan
-vlad.stan@gmail.com
-3
-Bine_ai_venit_in_paradis LaFamilia 35.00 10
-Suta_Nici_o_problema Parazitii 33.00 10
-In_mediul_vitreg Raku 33.00 10
-
-Andreea Munteanu
-andreea.munteanu@yahoo.com
 4
-Poveste_fara_sfarsit Bitza 45.00 10
-De_la_Est_la_Vest Puya 40.00 10
-Taramul_de_nisip Morometzii 35.00 10
-Diviziunea_Tentei KaziPloae 48.00 10
+CD Dificultati_Tehnice CTC 34.00 10 2004 Hip-Hop
+VINIL Cuvintecevindeca Cedry2k 130.00 45 2012 Hip-Hop
+MERCHANDISE Sapca_Semnatura Deceneu 45.00 Alb Bumbac 2024 Merchandise
+CASETA Operatiunea_Monstru Deceneu 36.00 Normal 2008 Hip-Hop
+# Linie de separare
 
 Alexandru Dumitru
 alexandru.dumitru@email.com
-2
-Drumul_spre_succes DOC 55.00 10
-In_Spatele_Blocului Vescan 30.00 10
-
-Cristina Popescu
-cristina.popescu@gmail.com
-1
-Sufletul_Orasului PachaMan 42.00 10
-
-Gabriel Mihai
-gabriel.mihai@outlook.com
 3
-Scapat_de_Sub_Control Deliric 38.00 10
-Poezie_Periculoasa GrasuXXL 40.00 10
-Secretul_din_Atom C.T.C. 50.00 10
-
-Diana Enache
-diana.enache@email.com
-2
-Fiul_Omului AFO 44.00 10
-In_sfarsit VladDobrescu 49.00 10
+CD Drumul_spre_succes DOC 55.00 10 2010 Hip-Hop
+VINIL In_Spatele_Blocului Vescan 130.00 33 2014 Hip-Hop
+MERCHANDISE Poster_XXL Vescan 25.00 Multicolor Hartie 2024 Merchandise
+# Linie de separare
 
 Sabina Brinzei
 sabinabr@gmail.com
 3
-OK!Computer Radiohead 190.00 10
-China DAniMocanu 900.00 10
-Album LoredanaGroza 67.00 10
+VINIL OK!Computer Radiohead 190.00 33 1997 Rock
+CD China DAniMocanu 90.00 10 2024 Manele
+MERCHANDISE Geaca_Piele_Ed_Lim LoredanaGroza 900.00 Negru Piele 2024 Merchandise
+# Linie de separare
 
 Maria Cojocaru
 mariarurig@gmail.com
-2
-In_Lipsa_Mea Smiley 90.00 10
-Plec_pe_Marte Smiley 80.00 10
+4
+CD In_Lipsa_Mea Smiley 90.00 10 2020 Pop
+VINIL Plec_pe_Marte Smiley 180.00 45 2022 Pop
+CASETA Album_De_Colectie Smiley 80.00 CrO2 2015 Pop
+MERCHANDISE Breloc_Chei Smiley 15.00 Argint Metal 2024 Merchandise
+# Linie de separare
+
+# COMANDĂ CU EXCEPȚIE DE PREȚ
+Test Pret Invalid
+test.invalid@email.com
+1
+CD Produs_Negativ ArtistX -10.00 10 2024 Pop
+# Linie de separare
+
+```
 
 
