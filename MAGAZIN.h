@@ -14,7 +14,7 @@ private:
     std::vector<Comanda> comenzi;
 
 public:
-    Magazin(const std::string& nume);
+   explicit Magazin(const std::string& nume);
 
 
     const std::string& getNume() const { return nume; }

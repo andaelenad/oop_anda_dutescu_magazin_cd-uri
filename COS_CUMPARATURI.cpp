@@ -23,9 +23,10 @@ double CosCumparaturi::calculeazaTotalComanda() const {
 void CosCumparaturi::afiseazaDoarViniluri() const {
     std::cout << "--- Afisare Viniluri (Dynamic Cast) ---\n";
     for (const auto& p : produse) {
-        if (Vinil* v = dynamic_cast<Vinil*>(p.get())) {
+        if (const Vinil* v = dynamic_cast<const Vinil*>(p.get())) { {
             std::cout << "  [GASIT VINIL] ";
             v->afiseaza();
+        }
         }
     }
 }
