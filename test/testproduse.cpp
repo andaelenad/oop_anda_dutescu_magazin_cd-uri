@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void TEST(ProdusTaxaTest, CalculeazaTaxaCD) {
+TEST(ProdusTaxaTest, CalculeazaTaxaCD) {
     CD c("Album CD", "Artist", 2020, "Pop", 100.0, 10);
     ASSERT_NEAR(c.calculeazaTaxa(), 5.0, 0.001);
 }
@@ -35,7 +35,7 @@ TEST(ProdusTaxaTest, CalculeazaTaxaMerchandise) {
 
 TEST(ExceptiiTest, ConstructorAruncaEroarePretInvalid) {
     ASSERT_THROW({
-        CD c("Produs Invalid", "A", 2020, "P", -10.0, 10) ;
+        CD c("Produs Invalid", "A", 2020, "P", -10.0, 10);
     }, EroarePretInvalid);
 }
 
@@ -86,12 +86,12 @@ TEST(CasetaTest, GetTipBanda) {
     ASSERT_EQ(k.getTipBanda(), "Ferro");
 }
 
-TEST(CosCumparaturiTest, CalculeazaTotalCuTaxe) {
+TEST(CosCumparaturiTest, CalculeazaTotal) {
     CosCumparaturi cos;
     cos.adaugaProdus(make_unique<CD>("CD_Test", "A", 2020, "P", 50.0, 1));
     cos.adaugaProdus(make_unique<Merchandise>("Merch_Test", "B", 2024, "M", 100.0, "Alb", "Plastic"));
 
-    ASSERT_NEAR(cos.calculeazaTotalComanda(), 160.50, 0.001);
+    ASSERT_NEAR(cos.calculeazaTotal(), 160.50, 0.001);
 }
 
 int main(int argc, char **argv) {
