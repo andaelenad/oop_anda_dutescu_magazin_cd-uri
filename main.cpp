@@ -163,7 +163,7 @@ void citesteComanda(ifstream& fin, Magazin& magazin) {
 
     if (!cosComanda.produse.empty()) {
         Client client(numeClient, emailClient);
-        Comanda comanda(client, move(cosComanda));
+        Comanda comanda(client, std::move(cosComanda));
         magazin.adaugaComanda(comanda);
     }
 }
