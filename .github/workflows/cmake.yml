@@ -33,6 +33,7 @@ defaults:
     # Use a bash shell, so we can use the same syntax for environment variable
     # access regardless of the host operating system
     # https://github.com/saxbophone/CPP20-Cross-Platform-Template
+    bash ./scripts/run_cppcheck.sh --exclude-dir extern/
     shell: bash
 
 jobs:
