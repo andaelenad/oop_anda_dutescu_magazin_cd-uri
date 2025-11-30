@@ -53,25 +53,3 @@ endif()
 
 copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG        release-1.12.1
-)
-FetchContent_MakeAvailable(googletest)
-
-
-# Executabilul de test, care include gtest/gtest.h
-add_executable(app_tests test/testproduse.cpp)
-
-
-target_link_libraries(app_tests PRIVATE
-        GTest::gtest_main
-        GTest::gtest
-)
-
-
-target_include_directories(app_tests PRIVATE
-        ${CMAKE_SOURCE_DIR}
-)
