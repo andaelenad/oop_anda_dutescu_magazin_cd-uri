@@ -20,7 +20,7 @@ on:
 env:
   BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
   EXECUTABLE_NAME: "MagazinCDuri_app"
-  INPUT_FILENAME: "tastatura.txt"
+  INPUT_FILENAME: "json.hpp"
   BIN_DIR: "bin"
   BUILD_DIR: "build"
   EXT_DIR: "ext"
@@ -40,7 +40,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v5.0.0
 
-      # SOLUȚIA PENTRU Cppcheck: Am înlocuit 'uses' cu 'run' și am adăugat argumentul de excludere
+      # PAS NOU: Instalare Cppcheck
+      - name: Install Cppcheck
+        run: |
+          sudo apt update
+          sudo apt install cppcheck -y
+
+      # RULARE CORECTĂ: Exclude directorul extern
       - name: Run cppcheck (Excluding external libraries)
         run: |
           bash ./scripts/run_cppcheck.sh --exclude=extern/
