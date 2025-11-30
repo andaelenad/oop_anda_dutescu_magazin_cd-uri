@@ -3,6 +3,7 @@
 
 #include "PRODUSMUZICAL.h"
 #include <string>
+#include <memory>
 
 class Merchandise : public ProdusMuzical {
 private:
@@ -14,18 +15,16 @@ public:
                 const std::string& culoare, const std::string& material);
     ~Merchandise() override = default;
 
-
     double calculeazaTaxa() const override;
     void afiseazaDetalii(std::ostream& os) const override;
-    ProdusMuzical* clone() const override;
-
+    std::unique_ptr<ProdusMuzical> clone() const override;
 
     Merchandise(const Merchandise& other);
     Merchandise& operator=(Merchandise other);
 
-
     bool estePremium() const;
 
+private:
     friend void swap(Merchandise& first, Merchandise& second);
 };
 

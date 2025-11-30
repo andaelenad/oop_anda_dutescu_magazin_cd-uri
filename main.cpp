@@ -16,7 +16,6 @@
 #include <iomanip>
 #include <memory>
 #include <sstream>
-#include <tuple>
 #include <algorithm>
 #include <utility>
 
@@ -47,7 +46,6 @@ unique_ptr<ProdusMuzical> parseProdus(const string& line) {
         throw EroareDateIncomplete("Nu s-a putut găsi prețul (format numeric cu .).");
     }
 
-
     size_t posStartPretToken = restulLiniei.rfind(' ', posPret);
     if (posStartPretToken == string::npos) {
         throw EroareDateIncomplete("Format invalid in jurul pretului.");
@@ -69,24 +67,19 @@ unique_ptr<ProdusMuzical> parseProdus(const string& line) {
         throw EroareDateIncomplete("Titlu sau Artist lipsa.");
     }
 
-
     artist = titluArtistTokens.back();
     titluArtistTokens.pop_back();
-
 
     titlu = titluArtistTokens[0];
     for (size_t i = 1; i < titluArtistTokens.size(); ++i) {
         titlu += " " + titluArtistTokens[i];
     }
 
-
     try {
-
         stringstream ssPret(parametriRaw);
         string pretStr;
         if (!(ssPret >> pretStr)) throw EroareDateIncomplete("Pretul nu a putut fi citit ca prim token.");
         double pret = stod(pretStr);
-
 
         string restulParametri;
         getline(ssPret >> ws, restulParametri);
@@ -97,18 +90,14 @@ unique_ptr<ProdusMuzical> parseProdus(const string& line) {
             parametriTokens.push_back(token);
         }
 
-        if (parametriTokens.size() < 3) {
-            throw EroareDateIncomplete("Lipsesc Genul, Anul sau Parametrii specifici din restul liniei.");
+        if (parametriTokens.size() < 2) {
+            throw EroareDateIncomplete("Lipsesc Anul sau Genul.");
         }
-
 
         string gen = parametriTokens.back(); parametriTokens.pop_back();
         int anAparitie = stoi(parametriTokens.back()); parametriTokens.pop_back();
 
-
         vector<string> paramSpecifici = parametriTokens;
-
-
 
         if (tipProdus == "CD") {
             if (paramSpecifici.size() < 1) throw EroareDateIncomplete("Lipseste numarul de piese CD.");
@@ -145,10 +134,10 @@ unique_ptr<ProdusMuzical> parseProdus(const string& line) {
 void citesteComanda(ifstream& fin, Magazin& magazin) {
     string line;
 
-    if (!getline(fin, line) || line.empty() || line.find("#") == 0) return;
+    if (!getline(fin, line) || line.empty() || line.starts_with("#")) return;
     string numeClient = line;
 
-    if (!getline(fin, line) || line.empty() || line.find("#") == 0) return;
+    if (!getline(fin, line) || line.empty() || line.starts_with("#")) return;
     string emailClient = line;
 
     int n = 0;
@@ -159,7 +148,7 @@ void citesteComanda(ifstream& fin, Magazin& magazin) {
 
     for (int i = 0; i < n; i++) {
         if (!getline(fin, line)) break;
-        if (line.empty() || line.find("#") == 0) continue;
+        if (line.empty() || line.starts_with("#")) continue;
 
         try {
             cosComanda.adaugaProdus(parseProdus(line));
@@ -204,10 +193,8 @@ int main() {
     cout << "\n>>> SCENARIU DE UTILIZARE A TUTUROR FUNCTIILOR <<<\n";
     cout << "----------------------------------------------------\n";
 
-    cout << "Magazin: " << magazin.getNume() << "\n";
-    for (const auto& comanda : magazin.getComenzi()) {
-        cout << comanda << "\n";
-    }
+    cout << magazin;
+
     cout << "----------------------------------------------------\n";
 
     cout << "\n[Functii de Nivel Inalt & Static]\n";
@@ -224,29 +211,47 @@ int main() {
         cout << "  - Client: " << comanda.getClient().getNume() << "\n";
     }
 
-    magazin.sorteazaComenziDupaValoare();
-    cout << "\n--- TEST SORTARE COMENZI ---\n";
     if (magazin.numarComenzi() > 0) {
+        magazin.sorteazaComenziDupaValoare();
+        cout << "\n--- TEST SORTARE COMENZI ---\n";
         const vector<Comanda>& comenziSortate = magazin.getComenzi();
-        cout << "Comenzile au fost sortate. Prima comanda (cea mai mica valoare): "
+        cout << "Comenzile au fost sortate. Prima comanda: "
                   << comenziSortate[0].getClient().getNume()
-                  << " cu totalul de " << fixed << setprecision(2)
-                  << comenziSortate[0].calculeazaTotalCuTaxe() << " RON\n";
-    }
+                  << " (" << fixed << setprecision(2) << comenziSortate[0].calculeazaTotalCuTaxe() << " RON)\n";
 
-    if (magazin.numarComenzi() > 0) {
         cout << "\n--- TEST DYNAMIC_CAST (AFISARE VINILURI) ---\n";
         magazin.getComenzi()[0].getCos().afiseazaDoarViniluri();
-    }
 
-    if (magazin.numarComenzi() > 0) {
-        cout << "\n[Test 4 clase derivate]\n";
+        cout << "\n[Test 4 clase derivate & Apelare Getters Produs Muzical]\n";
         for (const auto& p : magazin.getComenzi()[0].getCos().produse) {
-            if (Merchandise* m = dynamic_cast<Merchandise*>(p.get())) {
-                cout << "  Produs Merch: " << m->getTitlu() << " | Este Premium: " << (m->estePremium() ? "DA" : "NU") << "\n";
+
+            cout << "  -> Produs: " << p->getTitlu() << ", Artist: " << p->getArtist()
+                 << ", An: " << p->getAnAparitie() << ", Gen: " << p->getGen()
+                 << ", Pret ID: " << p->getIdProdus() << "\n";
+
+            if (const Merchandise* m = dynamic_cast<const Merchandise*>(p.get())) {
+                cout << "  -> Tip Merch: " << m->getTitlu() << " | Este Premium: " << (m->estePremium() ? "DA" : "NU") << "\n";
             }
         }
+
+        unique_ptr<ProdusMuzical> produsClonat = magazin.getComenzi()[0].getCos().produse[0]->clone();
+        cout << "\n--- TEST CLONARE (VIRTUAL CONSTRUCTOR) ---\n";
+        cout << "Produs Original ID: " << magazin.getComenzi()[0].getCos().produse[0]->getIdProdus() << "\n";
+        cout << "Produs Clonat ID: " << produsClonat->getIdProdus() << "\n";
+
+        Client clientTarget(magazin.getComenzi()[0].getClient().getNume(), magazin.getComenzi()[0].getClient().getEmail());
+        CD cd_nou("Update Test", "Artist Nou", 2025, "Pop", 100.00, 15);
+        bool actualizat = magazin.actualizeazaComanda(clientTarget, cd_nou);
+        cout << "\n--- TEST actualizeazaComanda (Magazin) ---\n";
+        cout << "Comanda clientului " << clientTarget.getNume() << " a fost actualizata: " << (actualizat ? "DA" : "NU") << "\n";
+
+        Comanda comandaCopie = comenziSortate[0];
+        cout << "\n--- TEST COPY CONSTRUCTOR (COMANDA) ---\n";
+        cout << "Comanda Copie (Client): " << comandaCopie.getClient().getNume()
+             << ", Total: " << fixed << setprecision(2) << comandaCopie.calculeazaTotalCuTaxe() << " RON\n";
     }
+
+    magazin.raportComenziTop(3);
 
     return 0;
 }

@@ -1,22 +1,34 @@
 #ifndef VINIL_H
 #define VINIL_H
+
 #include "PRODUSMUZICAL.h"
+#include <memory>
 
 class Vinil : public ProdusMuzical {
 private:
     int rpm;
+
 public:
-    // constructori 5 de baza unul specific
+    // Constructor
     Vinil(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int rpm);
     ~Vinil() override = default;
 
 
     double calculeazaTaxa() const override;
-    void afiseazaDetalii(std::ostream& os) const override;
-    ProdusMuzical* clone() const override;
+
+
+    std::unique_ptr<ProdusMuzical> clone() const override;
 
 
     Vinil(const Vinil& other);
     Vinil& operator=(Vinil other);
+
+protected:
+    void afiseazaDetalii(std::ostream& os) const override;
+
+private:
+
+    friend void swap(Vinil& first, Vinil& second);
 };
-#endif
+
+#endif // VINIL_H

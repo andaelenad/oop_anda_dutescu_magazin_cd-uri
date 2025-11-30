@@ -2,6 +2,7 @@
 #define CD_H
 
 #include "PRODUSMUZICAL.h"
+#include <memory>
 
 class CD : public ProdusMuzical {
 private:
@@ -9,11 +10,14 @@ private:
 
 public:
     CD(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int nr_piese);
+
     CD(const CD& other);
+
 
     CD& operator=(CD other);
 
-    ProdusMuzical* clone() const override;
+
+    std::unique_ptr<ProdusMuzical> clone() const override;
 
     double calculeazaTaxa() const override;
 
