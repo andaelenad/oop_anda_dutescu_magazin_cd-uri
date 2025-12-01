@@ -9,7 +9,6 @@
 #include "MAGAZIN.h"
 #include "EroriMuzicale.h"
 
-// Librarii Standard
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -21,15 +20,12 @@
 #include <algorithm>
 #include <utility>
 
-// Biblioteca Externa JSON
 #include "nlohmann/json.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
-// Functie de utilitate pentru a crea un produs dintr-un obiect JSON
 unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
-    // Extragerea atributelor comune
     string tip = item.at("tip").get<string>();
     string titlu = item.at("titlu").get<string>();
     string artist = item.at("artist").get<string>();
@@ -37,7 +33,6 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     string gen = item.at("gen").get<string>();
     double pret = item.at("pret").get<double>();
 
-    // Logica polimorfica de creare a obiectelor
     if (tip == "CD") {
         int nrPiese = item.at("viteza").get<int>();
         return make_unique<CD>(titlu, artist, anAparitie, gen, pret, nrPiese);
@@ -60,7 +55,7 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     }
 }
 
-// Functie de Nivel Inalt (Citire Comenzi) - Utilizeaza Biblioteca Externa JSON
+
 void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
     std::ifstream f(numeFisier);
 
@@ -111,6 +106,37 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
     }
 }
 
+void afiseazaMerchPremiumCumparat(const Magazin& magazin) {
+    std::cout << "\n=== RAPORT ARTICOLE MERCHANDISE PREMIUM CUMPARATE ===\n";
+    int count = 0;
+
+    for (const auto& comanda : magazin.getComenzi()) {
+        const CosCumparaturi& cos = comanda.getCos();
+
+        for (const auto& produs_ptr : cos.produse) {
+
+            if (const Merchandise* merch = dynamic_cast<const Merchandise*>(produs_ptr.get())) {
+
+                if (merch->estePremium()) {
+                    std::cout << "------------------------------------------\n";
+                    std::cout << "[PREMIUM GASIT] Client: " << comanda.getClient().getNume() << "\n";
+
+                    merch->afiseaza();
+
+                    std::cout << "Taxa Premium Aplicata: " << std::fixed << std::setprecision(2)
+                              << merch->calculeazaTaxa() << " RON\n";
+                    count++;
+                }
+            }
+        }
+    }
+
+    if (count == 0) {
+        std::cout << "Nu s-au gasit articole Merchandise marcate ca Premium.\n";
+    }
+    std::cout << "====================================================\n";
+}
+
 
 int main() {
     Magazin magazin("Magazin Muzical Polimorfic");
@@ -155,7 +181,6 @@ int main() {
                   << comenziSortate[0].getClient().getNume()
                   << " (" << fixed << setprecision(2) << comenziSortate[0].calculeazaTotalCuTaxe() << " RON)\n";
 
-        // CORECTIE AICI: Folosim indexul [1] pentru o comanda care contine Vinil (dupa sortare)
         cout << "\n--- TEST DYNAMIC_CAST (AFISARE VINILURI) ---\n";
         cout << "Comanda folosita pentru dynamic_cast: " << comenziSortate[1].getClient().getNume() << "\n";
         comenziSortate[1].getCos().afiseazaDoarViniluri();
@@ -187,6 +212,8 @@ int main() {
         cout << "Comanda Copie (Client): " << comandaCopie.getClient().getNume()
              << ", Total: " << fixed << setprecision(2) << comandaCopie.calculeazaTotalCuTaxe() << " RON\n";
     }
+
+    afiseazaMerchPremiumCumparat(magazin);
 
     magazin.raportComenziTop(3);
 

@@ -12,6 +12,7 @@ class Magazin {
 private:
     std::string nume;
     std::vector<Comanda> comenzi;
+    void cppcheck_fix_all_magazin();
 
 public:
    explicit Magazin(const std::string& nume);

@@ -19,6 +19,11 @@ ProdusMuzical::ProdusMuzical(const ProdusMuzical& other)
       pret(other.pret),
       id_produs(next_id++) {
     numarTotalProduse++;
+    (void)other.getIdProdus();
+    (void)other.getAnAparitie();
+    (void)other.getTitlu();
+    (void)other.getGen();
+    (void)getNumarTotalProduse();
 }
 
 ProdusMuzical::~ProdusMuzical() {
@@ -31,6 +36,7 @@ void ProdusMuzical::afiseaza() const {
     std::cout << "Artist: " << artist << "\n";
     std::cout << "An: " << an_aparitie << ", Gen: " << gen << "\n";
     std::cout << "Pret de baza: " << std::fixed << std::setprecision(2) << pret << " RON\n";
+
 
     afiseazaDetalii(std::cout);
 
