@@ -22,7 +22,7 @@
 #include <utility>
 
 // Biblioteca Externa JSON
-#include "extern/json.hpp"
+#include "nlohmann/json.hpp"
 
 using namespace std;
 using json = nlohmann::json;

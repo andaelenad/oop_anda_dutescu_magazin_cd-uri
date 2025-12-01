@@ -243,3 +243,50 @@ jobs:
       - name: Create release
         uses: ./.github/actions/create-release
         if: startsWith(github.ref, 'refs/tags/')
+        # ... (rest of the file remains the same)
+
+        jobs:
+          # ... (cppcheck and clang-tidy jobs remain the same)
+
+          build:
+            name: ${{ matrix.name }}
+            # concurrency:
+            #   group: ${{ matrix.name }}
+            runs-on: ${{ matrix.os }}
+            timeout-minutes: 8
+            permissions:
+              attestations: write
+              contents: write
+              id-token: write
+
+            # ... (env and strategy sections remain the same)
+
+            steps:
+              - name: Checkout repo
+                # renovate: datasource=github-tags depName=actions/checkout versioning=loose
+                uses: actions/checkout@v5.0.0
+
+              # ... (Set timestamp, Install packages, Configure CMake steps remain the same)
+
+              - name: Build
+                run: |
+                  bash ./scripts/cmake.sh build -c ${{ env.BUILD_TYPE }}
+
+              - name: Run Tests 🧪
+                # This step executes CTest, which runs the gtest_discover_tests targets defined in CMakeLists.txt
+                run: |
+                  echo "Running tests using CTest..."
+                  # Change directory to the build directory where CTest is located
+                  cd ${{ env.BUILD_DIR }}/${{ env.BUILD_TYPE }}
+                  # Run all tests discovered by CTest (Google Test targets)
+                  ctest --output-on-failure
+                shell: bash
+                # Conditionals ensure this runs only if build was successful and not on specific sanitized environments that use 'runtime-checks' later.
+                # However, for simplicity and completeness, we run CTest on all builds by default here.
+
+              - name: Install
+                # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
+                run: |
+                  bash ./scripts/cmake.sh install -c ${{ env.BUILD_TYPE }} -i artifacts
+
+              # ... (remaining steps like Move artifacts, Upload Artifacts, Runtime checks, Create release remain the same)
