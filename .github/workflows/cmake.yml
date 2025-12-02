@@ -208,11 +208,6 @@ jobs:
           echo "Listing installed files in artifacts/bin/ before move:"
           ls -la artifacts/${{ env.BIN_DIR }}/
 
-      - name: Move artifacts
-        run: |
-          mkdir ${{ env.ZIP_NAME }}
-          mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
-          ls -la ${{ env.ZIP_NAME }}
 
       - name: Process artifacts
         uses: ./.github/actions/process-artifacts
