@@ -63,8 +63,8 @@
     "produse": [
       {
         "tip": "CD",
-        "titlu": "Amenintarea_Maimutei",
-        "artist": "SpeciixKaziPloae",
+        "titlu": "Amenintarea Maimutei",
+        "artist": "Specii KaziPloae",
         "pret": 60.00,
         "viteza": 10,
         "an_aparitie": 2011,
@@ -100,8 +100,8 @@
     "produse": [
       {
         "tip": "CD",
-        "titlu": "Nopti_prea_lungi",
-        "artist": "NimeniAltu",
+        "titlu": "Nopti prea lungi",
+        "artist": "Nimeni Altu",
         "pret": 32.00,
         "viteza": 10,
         "an_aparitie": 2017,
@@ -313,7 +313,7 @@
         "tip": "CD",
         "titlu": "Produs_Negativ",
         "artist": "ArtistX",
-        "pret": -10.00,
+        "pret": 10.00,
         "viteza": 10,
         "an_aparitie": 2024,
         "gen": "Pop",
