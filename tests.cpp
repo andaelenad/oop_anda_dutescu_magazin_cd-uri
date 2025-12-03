@@ -10,8 +10,8 @@
 #include "CASETA.h"
 #include "MERCHANDISE.h"
 #include "COMANDA.h"
-#include "CLIENT.H"
-#include "COS_CUMPARATURI.H"
+#include "CLIENT.h"
+#include "COS_CUMPARATURI.h"
 #include "MAGAZIN.h"
 #include "EroriMuzicale.h"
 #include <memory>
