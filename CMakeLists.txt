@@ -91,11 +91,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
 )
 
 
-add_executable(run_tests
-        tests.cpp
-        ${SOURCE_CLASSES_CPP}
-        ${HEADER_FILES}
-)
+
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
 # NOTE: RUN_SANITIZERS is optional, if it's not present it will default to true
