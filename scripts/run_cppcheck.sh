@@ -1,6 +1,13 @@
 #!/usr/bin/bash
 
-cppcheck --enable=all \
+cppcheck \
+  --enable=all \
+  --inconclusive \
+  --quiet \
+  --suppress=missingIncludeSystem \
+  --exclude=catch.hpp \
+  --exclude=tests/catch.hpp \
+  --exclude=ext/catch \
     --inline-suppr \
     --project="${BUILD_DIR:-build}"/compile_commands.json \
     -i"${BUILD_DIR:-build}" --suppress="*:${BUILD_DIR:-build}/*" \
@@ -10,5 +17,5 @@ cppcheck --enable=all \
     --suppress=useStlAlgorithm \
     --check-level=exhaustive \
     --error-exitcode=1
-    --suppress=*:*catch.hpp
-    --suppress=*:*tests.hpp
+
+
