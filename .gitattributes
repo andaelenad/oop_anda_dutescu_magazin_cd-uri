@@ -7,5 +7,5 @@ ext/** linguist-vendored
 *.dll binary
 *.png binary
 *.jpg binary
-scripts/* linguist-vendored
+
 
