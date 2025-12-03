@@ -34,7 +34,9 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     string gen = item.at("gen").get<string>();
     double pret = item.at("pret").get<double>();
 
-
+    if (pret <= 0) {
+        throw EroarePretInvalid("Pret invalid (" + std::to_string(pret) + ") pentru produsul: " + titlu);
+    }
 
     if (tip == "CD") {
         int nrPiese = item.at("viteza").get<int>();
@@ -81,7 +83,19 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
 
             CosCumparaturi cosComanda;
 
-
+            for (const auto& produsItem : comandaItem.at("produse")) {
+                try {
+                    cosComanda.adaugaProdus(createProdusFromJSON(produsItem));
+                }
+                catch (const EroarePretInvalid& e) {
+                     cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
+                          << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
+                }
+                catch (const EroareMuzicala& e) {
+                     cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
+                          << " (Produs ignorat)\n";
+                }
+            }
 
             if (!cosComanda.produse.empty()) {
                 Comanda comanda(client, std::move(cosComanda));
@@ -236,8 +250,10 @@ void meniuInteractiv(Magazin& magazin) {
         std::cout << "7. CAUTA Produs dupa Titlu (in toate comenzile)\n";
         std::cout << "8. ADAUGA Produs Nou (Simulare)\n";
         std::cout << "9. ADAUGA Client Nou (Simulare)\n";
-        std::cout << "10. Sorteaza toate comenzile dupa valoare\n";
-        std::cout << "11. Iesire\n";
+        std::cout << "--------------------------------------------\n";
+        std::cout << "10. Rulare TESTE POO AVANSATE & GESTIUNE MEMORIE\n";
+        std::cout << "11. Testare EXCEPTII: Pret Invalid\n";
+        std::cout << "12. Iesire\n";
         std::cout << "--------------------------------------------\n";
         std::cout << "Alegeti optiunea: ";
 
@@ -377,16 +393,23 @@ void meniuInteractiv(Magazin& magazin) {
                 break;
             }
             case 10: {
-                std::cout << "\n--- SORTARE COMENZI DUPA VALOARE ---\n";
-                magazin.sorteazaComenziDupaValoare();
-                std::cout << "[SUCCES] Comenzile au fost sortate.\n";
-                std::cout << "Afisare rezultate:\n";
-                std::cout << magazin;
+                subMeniuTesteAvansate(magazin);
                 break;
             }
-
-
             case 11: {
+                std::cout << "\n--- TESTARE EXCEPTII: CONSTRUCTOR CU PRET INVALID ---\n";
+                try {
+                    std::cout << "Se incearca crearea unui CD cu pret de -10.0 RON...\n";
+                    std::unique_ptr<CD> cd_eroare = std::make_unique<CD>("Test Error", "NoName", 2025, "Test", -10.0, 5);
+                    (void)cd_eroare;
+                } catch (const EroarePretInvalid& e) {
+                    std::cerr << "\n[SUCCES] Exceptie prinsa: " << e.what() << "\n";
+                } catch (const std::exception& e) {
+                    std::cerr << "\n[EROARE] Exceptie Standard prinsa: " << e.what() << "\n";
+                }
+                break;
+            }
+            case 12: {
                 std::cout << "\nVa multumim! La revedere.\n";
                 return;
             }
