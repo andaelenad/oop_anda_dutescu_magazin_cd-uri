@@ -34,9 +34,7 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     string gen = item.at("gen").get<string>();
     double pret = item.at("pret").get<double>();
 
-    if (pret <= 0) {
-        throw EroarePretInvalid("Pret invalid (" + std::to_string(pret) + ") pentru produsul: " + titlu);
-    }
+
 
     if (tip == "CD") {
         int nrPiese = item.at("viteza").get<int>();
@@ -83,19 +81,7 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
 
             CosCumparaturi cosComanda;
 
-            for (const auto& produsItem : comandaItem.at("produse")) {
-                try {
-                    cosComanda.adaugaProdus(createProdusFromJSON(produsItem));
-                }
-                catch (const EroarePretInvalid& e) {
-                     cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
-                          << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
-                }
-                catch (const EroareMuzicala& e) {
-                     cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
-                          << " (Produs ignorat)\n";
-                }
-            }
+
 
             if (!cosComanda.produse.empty()) {
                 Comanda comanda(client, std::move(cosComanda));
