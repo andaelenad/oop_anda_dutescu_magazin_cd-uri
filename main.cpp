@@ -236,7 +236,8 @@ void meniuInteractiv(Magazin& magazin) {
         std::cout << "7. CAUTA Produs dupa Titlu (in toate comenzile)\n";
         std::cout << "8. ADAUGA Produs Nou (Simulare)\n";
         std::cout << "9. ADAUGA Client Nou (Simulare)\n";
-        std::cout << "10. Iesire\n";
+        std::cout << "10. Sorteaza toate comenzile dupa valoare\n";
+        std::cout << "11. Iesire\n";
         std::cout << "--------------------------------------------\n";
         std::cout << "Alegeti optiunea: ";
 
@@ -375,8 +376,17 @@ void meniuInteractiv(Magazin& magazin) {
                 }
                 break;
             }
-
             case 10: {
+                std::cout << "\n--- SORTARE COMENZI DUPA VALOARE ---\n";
+                magazin.sorteazaComenziDupaValoare();
+                std::cout << "[SUCCES] Comenzile au fost sortate.\n";
+                std::cout << "Afisare rezultate:\n";
+                std::cout << magazin;
+                break;
+            }
+
+
+            case 11: {
                 std::cout << "\nVa multumim! La revedere.\n";
                 return;
             }

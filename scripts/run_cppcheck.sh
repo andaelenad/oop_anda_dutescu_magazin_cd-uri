@@ -11,3 +11,4 @@ cppcheck --enable=all \
     --check-level=exhaustive \
     --error-exitcode=1
     --suppress=*:*catch.hpp
+    --suppress=*:*tests.hpp

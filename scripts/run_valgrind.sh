@@ -20,6 +20,7 @@ run_valgrind() {
             --track-origins=yes \
             --error-exitcode=1 \
             --suppress=*:*catch.hpp
+            --suppress=*:*tests.cpp
             ./"${BIN_DIR}"/"${EXECUTABLE_NAME}"
 }
 
