@@ -131,6 +131,8 @@ TEST_CASE("Test 9: Adaugare & Eliberare Memorie", "[FUNCTIONALITATE]") {
     cos.adaugaProdus(std::make_unique<Vinil>("A2", "B2", 2020, "R", 20.0, 33));
 
     REQUIRE(cos.produse.size() == 2);
+    // tests.cpp (Testul relevant)
+
 
 
     REQUIRE(ProdusMuzical::getNumarTotalProduse() == initialCount + 2);

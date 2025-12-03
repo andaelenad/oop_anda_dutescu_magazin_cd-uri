@@ -15,8 +15,8 @@ private:
     double pret;
     int id_produs;
 
-    static int next_id;
-    static int numarTotalProduse;
+    static size_t next_id;
+    static size_t numarTotalProduse;
 
 protected:
     virtual void afiseazaDetalii(std::ostream& os) const = 0;
@@ -42,7 +42,7 @@ public:
     const std::string& getTitlu() const { return titlu; }
     const std::string& getGen() const { return gen; }
 
-    static int getNumarTotalProduse() { return numarTotalProduse; }
+    static size_t getNumarTotalProduse() { return numarTotalProduse; }
 
     friend void swap(ProdusMuzical& first, ProdusMuzical& second);
 };

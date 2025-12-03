@@ -4,8 +4,8 @@
 #include <iomanip>
 #include <algorithm>
 
-int ProdusMuzical::next_id = 1;
-int ProdusMuzical::numarTotalProduse = 0;
+size_t ProdusMuzical::next_id = 1;
+size_t ProdusMuzical::numarTotalProduse = 0;
 
 ProdusMuzical::ProdusMuzical(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret)
     : titlu(titlu), artist(artist), an_aparitie(an_aparitie), gen(gen), id_produs(next_id++)
