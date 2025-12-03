@@ -10,3 +10,4 @@ cppcheck --enable=all \
     --suppress=useStlAlgorithm \
     --check-level=exhaustive \
     --error-exitcode=1
+    --suppress=*:*catch.hpp
