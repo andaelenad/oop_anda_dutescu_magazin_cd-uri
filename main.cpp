@@ -250,10 +250,7 @@ void meniuInteractiv(Magazin& magazin) {
         std::cout << "7. CAUTA Produs dupa Titlu (in toate comenzile)\n";
         std::cout << "8. ADAUGA Produs Nou (Simulare)\n";
         std::cout << "9. ADAUGA Client Nou (Simulare)\n";
-        std::cout << "--------------------------------------------\n";
-        std::cout << "10. Rulare TESTE POO AVANSATE & GESTIUNE MEMORIE\n";
-        std::cout << "11. Testare EXCEPTII: Pret Invalid\n";
-        std::cout << "12. Iesire\n";
+        std::cout << "10. Iesire\n";
         std::cout << "--------------------------------------------\n";
         std::cout << "Alegeti optiunea: ";
 
@@ -392,24 +389,8 @@ void meniuInteractiv(Magazin& magazin) {
                 }
                 break;
             }
+
             case 10: {
-                subMeniuTesteAvansate(magazin);
-                break;
-            }
-            case 11: {
-                std::cout << "\n--- TESTARE EXCEPTII: CONSTRUCTOR CU PRET INVALID ---\n";
-                try {
-                    std::cout << "Se incearca crearea unui CD cu pret de -10.0 RON...\n";
-                    std::unique_ptr<CD> cd_eroare = std::make_unique<CD>("Test Error", "NoName", 2025, "Test", -10.0, 5);
-                    (void)cd_eroare;
-                } catch (const EroarePretInvalid& e) {
-                    std::cerr << "\n[SUCCES] Exceptie prinsa: " << e.what() << "\n";
-                } catch (const std::exception& e) {
-                    std::cerr << "\n[EROARE] Exceptie Standard prinsa: " << e.what() << "\n";
-                }
-                break;
-            }
-            case 12: {
                 std::cout << "\nVa multumim! La revedere.\n";
                 return;
             }

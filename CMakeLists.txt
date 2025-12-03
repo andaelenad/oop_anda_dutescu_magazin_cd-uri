@@ -60,29 +60,46 @@ find_package(Threads REQUIRED)
 
 ###############################################################################
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
-add_executable(${MAIN_EXECUTABLE_NAME}
-        main.cpp
+
+set(SOURCE_CLASSES_CPP
         CLIENT.cpp
         CD.cpp
         COMANDA.cpp
         MAGAZIN.cpp
         PRODUSMUZICAL.cpp
-        PRODUSMUZICAL.h
         VINIL.cpp
-        VINIL.h
         CASETA.cpp
-        CASETA.h
         COS_CUMPARATURI.cpp
+        MERCHANDISE.cpp
+)
+
+
+set(HEADER_FILES
+        PRODUSMUZICAL.h
+        VINIL.h
+        CASETA.h
         COS_CUMPARATURI.h
         EroriMuzicale.h
-        MERCHANDISE.cpp
         MERCHANDISE.h
+)
+
+# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
+add_executable(${MAIN_EXECUTABLE_NAME}
+        main.cpp
+        ${SOURCE_CLASSES_CPP}
+        ${HEADER_FILES}
+)
+
+
+add_executable(run_tests
+        tests.cpp
+        ${SOURCE_CLASSES_CPP}
+        ${HEADER_FILES}
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
 # NOTE: RUN_SANITIZERS is optional, if it's not present it will default to true
-set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME})
+set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME} run_tests)
 # set_compiler_flags(TARGET_NAMES ${MAIN_EXECUTABLE_NAME} ${FOO} ${BAR})
 # where ${FOO} and ${BAR} represent additional executables or libraries
 # you want to compile with the set compiler flags
@@ -102,17 +119,18 @@ target_link_libraries(${MAIN_EXECUTABLE_NAME}
         Threads::Threads
 )
 
-###############################################################################
-## ELIMINAT: Secțiunea de Testare Unitară
-###############################################################################
+target_link_libraries(run_tests
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+)
+
 
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
-install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})
+install(TARGETS ${MAIN_EXECUTABLE_NAME} run_tests DESTINATION ${DESTINATION_DIR})
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 
-copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
-# copy_files(FILES tastatura.txt config.json DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
-# copy_files(DIRECTORY images sounds COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+copy_files(FILES comenzi.json COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
+

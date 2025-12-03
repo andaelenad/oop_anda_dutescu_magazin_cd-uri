@@ -313,7 +313,7 @@
         "tip": "CD",
         "titlu": "Produs_Negativ",
         "artist": "ArtistX",
-        "pret": 10.00,
+        "pret": -10.00,
         "viteza": 10,
         "an_aparitie": 2024,
         "gen": "Pop",

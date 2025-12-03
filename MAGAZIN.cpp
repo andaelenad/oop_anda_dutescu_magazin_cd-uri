@@ -10,7 +10,7 @@
 #include <sstream>
 
 Magazin::Magazin(const std::string& nume) : nume(nume) {
-    cppcheck_fix_all_magazin();
+
 }
 
 

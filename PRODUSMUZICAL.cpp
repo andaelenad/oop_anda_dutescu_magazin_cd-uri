@@ -1,4 +1,5 @@
 #include "PRODUSMUZICAL.h"
+#include "EroriMuzicale.h"
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -7,7 +8,13 @@ int ProdusMuzical::next_id = 1;
 int ProdusMuzical::numarTotalProduse = 0;
 
 ProdusMuzical::ProdusMuzical(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret)
-    : titlu(titlu), artist(artist), an_aparitie(an_aparitie), gen(gen), pret(pret), id_produs(next_id++) {
+    : titlu(titlu), artist(artist), an_aparitie(an_aparitie), gen(gen), id_produs(next_id++)
+{
+
+    if (pret <= 0.0) {
+        throw EroarePretInvalid("Pretul produsului trebuie sa fie strict pozitiv.");
+    }
+    this->pret = pret;
     numarTotalProduse++;
 }
 

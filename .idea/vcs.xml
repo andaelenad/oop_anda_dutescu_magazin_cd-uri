@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/json" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/out/x64.release/_deps/googletest-src" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/out/x64.release/_deps/nlohmann_json-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vcpkg" vcs="Git" />
   </component>
 </project>
