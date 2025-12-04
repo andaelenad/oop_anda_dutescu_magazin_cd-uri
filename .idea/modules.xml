@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/oop_anda_dutescu_magazin_cd-uri-main.iml" filepath="$PROJECT_DIR$/.idea/oop_anda_dutescu_magazin_cd-uri-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/oop.iml" filepath="$PROJECT_DIR$/.idea/oop.iml" />
     </modules>
   </component>
 </project>
