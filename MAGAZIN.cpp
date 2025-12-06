@@ -1,10 +1,21 @@
 #include "MAGAZIN.h"
-#include <algorithm>
+#include "COS_CUMPARATURI.h"
+#include "CLIENT.h"
+#include "COMANDA.h"
+#include "CD.h"
 #include <iostream>
 #include <iomanip>
-#include <memory>
+#include <algorithm>
+#include <map>
+#include <sstream>
 
-Magazin::Magazin(const std::string& nume) : nume(nume) {}
+Magazin::Magazin(const std::string& nume) : nume(nume) {
+
+}
+
+
+
+
 
 void Magazin::adaugaComanda(const Comanda& c) {
     comenzi.push_back(c);
@@ -12,8 +23,9 @@ void Magazin::adaugaComanda(const Comanda& c) {
 
 double Magazin::venitTotal() const {
     double total = 0.0;
-    for (const auto& c : comenzi)
+    for (const auto& c : comenzi) {
         total += c.calculeazaTotalCuTaxe();
+    }
     return total;
 }
 
@@ -90,7 +102,4 @@ std::ostream& operator<<(std::ostream& os, const Magazin& m) {
     }
     return os;
 }
-
-
-
 

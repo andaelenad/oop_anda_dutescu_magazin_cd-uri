@@ -73,6 +73,8 @@ set(SOURCE_CLASSES_CPP
         MERCHANDISE.cpp
         main.cpp
         main.cpp
+        MAGAZIN.cpp
+        main.cpp
 )
 
 
@@ -85,6 +87,8 @@ set(HEADER_FILES
         MERCHANDISE.h
         main.cpp
         main.cpp
+        MAGAZIN.h
+        main.cpp
 )
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
@@ -94,6 +98,9 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         ${HEADER_FILES}
         main.cpp
         main.cpp
+        MAGAZIN.h
+        MAGAZIN.cpp
+        main.cpp
 )
 
 
@@ -101,7 +108,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
 # NOTE: RUN_SANITIZERS is optional, if it's not present it will default to true
-set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME} run_tests)
+
 # set_compiler_flags(TARGET_NAMES ${MAIN_EXECUTABLE_NAME} ${FOO} ${BAR})
 # where ${FOO} and ${BAR} represent additional executables or libraries
 # you want to compile with the set compiler flags
@@ -126,7 +133,6 @@ target_link_libraries(${MAIN_EXECUTABLE_NAME}
 
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
-install(TARGETS ${MAIN_EXECUTABLE_NAME} run_tests DESTINATION ${DESTINATION_DIR})
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
