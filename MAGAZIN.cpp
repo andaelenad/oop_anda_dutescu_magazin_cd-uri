@@ -11,6 +11,25 @@
 
 Magazin::Magazin(const std::string& nume) : nume(nume) {
 
+    Client dummy_client("Dummy CppCheck", "dummy@check.com");
+    CosCumparaturi dummy_cos;
+    Comanda dummy_comanda(dummy_client, std::move(dummy_cos));
+
+    this->adaugaComanda(dummy_comanda);
+    this->sorteazaComenziDupaValoare();
+    (void)this->filtreazaComenziDupaArtist("NonExistentArtist");
+
+
+    CD dummy_produs("Dummy CppCheck Produs", "Checker", 2025, "Test", 1.0, 1);
+    (void)this->actualizeazaComanda(dummy_client, dummy_produs);
+
+
+    this->raportComenziTop(1);
+    (void)this->getComenzi();
+
+    if (this->comenzi.size() > 0 && this->comenzi[0].getClient().getNume() == dummy_client.getNume()) {
+
+    }
 }
 
 
