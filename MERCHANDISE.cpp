@@ -47,4 +47,5 @@ void swap(Merchandise& first, Merchandise& second) {
 Merchandise& Merchandise::operator=(Merchandise other) {
     swap(*this, other);
     return *this;
+}
 
