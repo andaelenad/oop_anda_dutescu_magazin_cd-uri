@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <utility>
+#include <algorithm>
 
 ComandaLivrare::ComandaLivrare(const Client& client, CosCumparaturi cos,
                                const std::string& adresa, double costBaza, bool urgent)
@@ -34,6 +35,7 @@ ComandaLivrare& ComandaLivrare::operator=(const ComandaLivrare& other) {
     return *this;
 }
 
+
 std::unique_ptr<Comanda> ComandaLivrare::clone() const {
     return std::make_unique<ComandaLivrare>(*this);
 }
@@ -55,7 +57,10 @@ void ComandaLivrare::afiseazaDetaliiComanda(std::ostream& os) const {
     os << "  Adresa: " << adresaLivrare << "\n";
     os << "  Cost Livrare Baza: " << std::fixed << std::setprecision(2) << costBazaLivrare << " RON\n";
     os << "  Urgenta: " << (esteUrgenta ? "DA (+20% taxa)" : "NU") << "\n";
+
+    double costFinalLivrare = this->calculeazaTotalComanda() - Comanda::calculeazaTotalComanda();
+
     os << "  Cost Final Livrare: " << std::fixed << std::setprecision(2)
-       << (calculeazaTotalComanda() - Comanda::calculeazaTotalComanda()) << " RON\n";
+       << costFinalLivrare << " RON\n";
     os << "-----------------------\n";
 }
