@@ -43,7 +43,7 @@ void Magazin::adaugaComanda(const Comanda& c) {
 double Magazin::venitTotal() const {
     double total = 0.0;
     for (const auto& c : comenzi) {
-        total += c.calculeazaTotalCuTaxe();
+        total += c.calculeazaTotalComanda();
     }
     return total;
 }
@@ -54,7 +54,7 @@ int Magazin::numarComenzi() const {
 
 void Magazin::sorteazaComenziDupaValoare() {
     std::sort(comenzi.begin(), comenzi.end(), [](const Comanda& a, const Comanda& b) {
-        return a.calculeazaTotalCuTaxe() < b.calculeazaTotalCuTaxe();
+        return a.calculeazaTotalComanda() < b.calculeazaTotalComanda();
     });
 }
 
@@ -90,7 +90,7 @@ void Magazin::raportComenziTop(int topN) const {
 
     std::vector<Comanda> sorted_comenzi = comenzi;
     std::sort(sorted_comenzi.begin(), sorted_comenzi.end(), [](const Comanda& a, const Comanda& b) {
-        return a.calculeazaTotalCuTaxe() > b.calculeazaTotalCuTaxe();
+        return a.calculeazaTotalComanda() > b.calculeazaTotalComanda();
     });
 
     int count = std::min((int)sorted_comenzi.size(), topN);
@@ -99,7 +99,7 @@ void Magazin::raportComenziTop(int topN) const {
     for (int i = 0; i < count; ++i) {
         std::cout << i + 1 << ". Client: " << sorted_comenzi[i].getClient().getNume()
                   << " | Total: " << std::fixed << std::setprecision(2)
-                  << sorted_comenzi[i].calculeazaTotalCuTaxe() << " RON\n";
+                  << sorted_comenzi[i].calculeazaTotalComanda() << " RON\n";
     }
 }
 

@@ -45,6 +45,8 @@ set(SOURCE_FILES
         CASETA.cpp
         COS_CUMPARATURI.cpp
         MERCHANDISE.cpp
+        COMANDALIVRARE.cpp
+        COMANDALIVRARE.h
 )
 
 

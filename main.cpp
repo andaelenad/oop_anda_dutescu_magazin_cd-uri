@@ -300,7 +300,7 @@ void meniuInteractiv(Magazin& magazin) {
                     std::cout << "S-au gasit " << comenziFiltrate.size() << " comenzi:\n";
                     for (const auto& comanda : comenziFiltrate) {
                         std::cout << "  - Client: " << comanda.getClient().getNume()
-                                  << ", Total: " << std::fixed << std::setprecision(2) << comanda.calculeazaTotalCuTaxe() << " RON\n";
+                                  << ", Total: " << std::fixed << std::setprecision(2) << comanda.calculeazaTotalComanda() << " RON\n";
                     }
                 }
                 break;
@@ -335,7 +335,7 @@ void meniuInteractiv(Magazin& magazin) {
                 for (const auto& c : magazin.getComenzi()) {
                     if (c.getClient().getEmail() == input) {
                         std::cout << "\n[SUCCES] Comanda gasita pentru " << c.getClient().getNume() << ":\n";
-                        std::cout << "Total: " << std::fixed << std::setprecision(2) << c.calculeazaTotalCuTaxe() << " RON\n";
+                        std::cout << "Total: " << std::fixed << std::setprecision(2) << c.calculeazaTotalComanda() << " RON\n";
                         std::cout << c;
                         gasit = true;
                         break;
