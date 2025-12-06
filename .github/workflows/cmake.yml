@@ -63,7 +63,6 @@ jobs:
       contents: write
       id-token: write
       attestations: write
-
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
@@ -131,37 +130,50 @@ jobs:
 
       - name: Debug artifacts
         run: |
-          echo "Listing installed files in artifacts/bin:"
-          ls -la artifacts/${BIN_DIR}/
+          echo "Listing installed files in artifacts:"
+          ls -R artifacts/
 
       - name: Move artifacts
         run: |
-          mkdir -p ${{ env.ZIP_NAME }}
-          mv artifacts/${BIN_DIR}/* ${{ env.ZIP_NAME }}
-          ls -la ${{ env.ZIP_NAME }}
-
-      - name: Process artifacts
-        uses: ./.github/actions/process-artifacts
+          ZIP_DIR="${ZIP_NAME}_${TIMESTAMP}"
+          mkdir -p "$ZIP_DIR"
+          cp -r artifacts/${BIN_DIR}/${BUILD_TYPE}/* "$ZIP_DIR"/
+          echo "Contents of $ZIP_DIR:"
+          ls -la "$ZIP_DIR"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
-          path: ${{ env.ZIP_NAME }}
+          name: "${ZIP_NAME}_${TIMESTAMP}"
+          path: "${ZIP_NAME}_${TIMESTAMP}"
           retention-days: 30
 
       - name: Runtime checks
         run: |
-          echo "Listing artifacts folder:"
-          ls -la artifacts/${BIN_DIR}
-          echo "Running the executable with input:"
-          if [[ "${RUNNER_OS}" == "Windows" ]]; then
-            ./artifacts/${BIN_DIR}/${EXECUTABLE_NAME}.exe < "${INPUT_FILENAME}"
-          elif [[ "${matrix.name}" == *Valgrind* ]]; then
-            valgrind --leak-check=full ./artifacts/${BIN_DIR}/${EXECUTABLE_NAME} < "${INPUT_FILENAME}"
-          else
-            ./artifacts/${BIN_DIR}/${EXECUTABLE_NAME} < "${INPUT_FILENAME}"
+          EXEC_PATH="artifacts/${BIN_DIR}/${BUILD_TYPE}/${EXECUTABLE_NAME}"
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            EXEC_PATH="${EXEC_PATH}.exe"
           fi
+
+          if [[ ! -f "$EXEC_PATH" ]]; then
+            echo "Error: Executable not found at $EXEC_PATH"
+            exit 1
+          fi
+
+          echo "Listing artifacts folder:"
+          ls -la "artifacts/${BIN_DIR}/${BUILD_TYPE}"
+
+          echo "Running the executable with input:"
+          if [[ "${RUN_TYPE}" == *Valgrind* ]]; then
+            valgrind --leak-check=full "$EXEC_PATH" < "${INPUT_FILENAME}"
+          else
+            "$EXEC_PATH" < "${INPUT_FILENAME}"
+        env:
+          RUN_TYPE: ${{ matrix.name }}
+          BUILD_TYPE: ${{ env.BUILD_TYPE }}
+          EXECUTABLE_NAME: ${{ env.EXECUTABLE_NAME }}
+          BIN_DIR: ${{ env.BIN_DIR }}
+          INPUT_FILENAME: ${{ env.INPUT_FILENAME }}
 
       - name: Create release
         if: startsWith(github.ref, 'refs/tags/')
