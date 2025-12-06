@@ -26,6 +26,24 @@
 using namespace std;
 using json = nlohmann::json;
 
+class ProdusMuzicalDummy : public ProdusMuzical {
+public:
+    ProdusMuzicalDummy()
+        : ProdusMuzical("Album Dummy", "Artist Dummy", 2025, "Gen Dummy", 10.0) {}
+
+    void afiseazaDetalii(std::ostream& os) const override {
+        os << "[Produs Dummy] " << getTitlu() << " - " << getArtist() << "\n";
+    }
+
+    double calculeazaTaxa() const override {
+        return 0.0;
+    }
+
+    std::unique_ptr<ProdusMuzical> clone() const override {
+        return std::make_unique<ProdusMuzicalDummy>(*this);
+    }
+};
+
 unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     string tip = item.at("tip").get<string>();
     string titlu = item.at("titlu").get<string>();
@@ -119,7 +137,6 @@ void afiseazaMerchPremiumCumparat(const Magazin& magazin) {
         const CosCumparaturi& cos = comanda.getCos();
 
         for (const auto& produs_ptr : cos.produse) {
-
             if (const Merchandise* merch = dynamic_cast<const Merchandise*>(produs_ptr.get())) {
 
                 if (merch->estePremium()) {
@@ -178,6 +195,10 @@ void subMeniuTesteAvansate(Magazin& magazin) {
         switch (optiune) {
             case 1: {
                 std::cout << "\n--- TEST CLONARE (VIRTUAL CONSTRUCTOR) ---\n";
+                if (comenzi[0].getCos().produse.empty()) {
+                    std::cout << "[AVERTISMENT] Prima comanda nu contine produse pentru test.\n";
+                    break;
+                }
                 std::unique_ptr<ProdusMuzical> produsOriginal = comenzi[0].getCos().produse[0]->clone();
                 std::unique_ptr<ProdusMuzical> produsClonat = produsOriginal->clone();
 
@@ -197,10 +218,10 @@ void subMeniuTesteAvansate(Magazin& magazin) {
                 break;
             }
             case 3: {
-                std::string emailTarget = comenzi[0].getClient().getEmail();
-                Client clientTarget(comenzi[0].getClient().getNume(), emailTarget);
+                std::string numeTarget = comenzi[0].getClient().getNume();
+                Client clientTarget(numeTarget, comenzi[0].getClient().getEmail());
 
-                CD cd_nou("Piesa Adaugata", "Artist Test", 2025, "Test", 1.00, 1);
+                CD cd_nou("Piesa Adaugata Test", "Artist Test", 2025, "Test", 1.00, 1);
 
                 std::cout << "\n--- TEST actualizeazaComanda (Magazin) ---\n";
                 std::cout << "Se incearca actualizarea comenzii clientului: " << clientTarget.getNume() << "\n";
@@ -421,19 +442,39 @@ void meniuInteractiv(Magazin& magazin) {
 
 int main() {
     Magazin magazin("Magazin Muzical Polimorfic");
-    const string FISIER_JSON = "comenzi.json";
 
-    cout << ">>> Incarcare date din " << FISIER_JSON << " (Biblioteca Externa JSON)...\n";
-    cout << "----------------------------------------------------------------------\n";
 
+    Client client_dummy{"Ion", "Popescu"};
+
+
+    CosCumparaturi cos;
+    cos.adaugaProdus(std::make_unique<ProdusMuzicalDummy>());
+
+
+    Comanda comanda_dummy(client_dummy, std::move(cos));
+
+
+    magazin.adaugaComanda(comanda_dummy);
+    magazin.sorteazaComenziDupaValoare();
+    magazin.filtreazaComenziDupaArtist("Artist");
+
+    ProdusMuzicalDummy produs_dummy_simple;
+    magazin.actualizeazaComanda(client_dummy, produs_dummy_simple);
+
+    magazin.raportComenziTop(5);
+    magazin.getComenzi();
+
+
+    const std::string FISIER_JSON = "comenzi.json";
     try {
         citesteComenziDinJSON(FISIER_JSON, magazin);
-        std::cerr.flush();
-    } catch (const exception& e) {
-        cerr << "\n[EROARE FATALA LA CITIRE]: " << e.what() << "\n";
+    } catch (const std::exception& e) {
+        std::cerr << "\n[EROARE FATALA LA CITIRE]: " << e.what() << "\n";
     }
 
+
     meniuInteractiv(magazin);
+
 
     return 0;
 }
