@@ -102,4 +102,5 @@ std::ostream& operator<<(std::ostream& os, const Magazin& m) {
     }
     return os;
 }
+//comentariu
 
