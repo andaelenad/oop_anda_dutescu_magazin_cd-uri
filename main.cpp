@@ -132,6 +132,7 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
 void afiseazaMerchPremiumCumparat(const Magazin& magazin) {
     std::cout << "\n=== RAPORT ARTICOLE MERCHANDISE PREMIUM CUMPARATE (DYNAMIC CAST) ===\n";
     int count = 0;
+    std::cout << comanda_livrare_test.getAdresaLivrare() << "\n";
 
     for (const auto& comanda : magazin.getComenzi()) {
         const CosCumparaturi& cos = comanda.getCos();
