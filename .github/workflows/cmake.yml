@@ -73,8 +73,6 @@ jobs:
 
   build:
     name: ${{ matrix.name }}
-    # concurrency:
-    #   group: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 8
     permissions:
@@ -87,43 +85,21 @@ jobs:
       CXX: ${{ matrix.cxx }}
       VSCMD_SKIP_SENDTELEMETRY: 1
 
-      # NOTE: also update in CMakeLists FetchContent
       SFML_VERSION: "2023-11-04-2.6.1"
 
-      # NOTE: replace with another version if this one does not work
-      # For more versions, see https://winlibs.com or
-      # https://github.com/brechtsanders/winlibs_mingw/releases/
       MINGW_VER: "13.3.0posix-11.0.1-msvcrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64msvcrt-11.0.1-r1.7z"
-      # Example:
-      # MINGW_VER: "13.3.0posix-11.0.1-ucrt-r1/winlibs-x86_64-posix-seh-gcc-13.3.0-mingw-w64ucrt-11.0.1-r1.7z"
-      # MINGW_VER: "14.1.0posix-18.1.7-12.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-14.1.0-mingw-w64ucrt-12.0.0-r2.7z"
-      # MINGW_VER: "14.1.0posix-18.1.7-12.0.0-msvcrt-r2/winlibs-x86_64-posix-seh-gcc-14.1.0-mingw-w64msvcrt-12.0.0-r2.7z"
-
 
     strategy:
       fail-fast: false
       matrix:
         include:
-          # - os: ubuntu-22.04
-          #   c: clang-18
-          #   cxx: clang++-18
-          #   clang_ver: "18"
-          #   clang_ver_full: "18.1.8"
-          #   name: "MSan: Ubuntu 22.04 Clang 18"
-          #   cmake_flags: "-DUSE_MSAN=ON -DBUILD_SHARED_LIBS=FALSE"
-          #   cmake_generator: Ninja
-          #   # This env runs memory sanitizers
-          #   runs_msan: true
-
           - os: ubuntu-22.04
             c: gcc-12
             cxx: g++-12
             name: "ASan: Ubuntu 22.04 GCC 12"
             cmake_flags: "-DUSE_ASAN=ON -DBUILD_SHARED_LIBS=FALSE"
             cmake_generator: Ninja
-            # This env runs address sanitizers
             runs_asan: true
-            # this is used to add a suffix to the archive name since we use the same compiler version
             asan_name: "-asan"
 
           - os: ubuntu-22.04
@@ -132,7 +108,6 @@ jobs:
             name: "Valgrind: Ubuntu 22.04 GCC 12"
             cmake_flags: -DBUILD_SHARED_LIBS=FALSE
             cmake_generator: Ninja
-            # This env runs valgrind
             runs_valgrind: true
             asan_name: "-asan"
 
@@ -141,27 +116,12 @@ jobs:
             cxx: clang++
             name: "macOS 14 Apple Clang 15"
             cmake_flags: "-DUSE_ASAN=OFF -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts"
-            # cmake_generator:
-            # This env runs address sanitizers
-            # runs_asan: false
-
-          # - os: macos-14
-          #   c: gcc-13
-          #   cxx: g++-13
-          #   name: "macOS 14 GCC 13"
-          #   cmake_flags:
-          #   cmake_generator: Ninja
 
           - os: windows-2022
             c: cl
             cxx: cl
             name: "ASan: Windows 2022 MSVC 19.41"
             cmake_flags: "-DUSE_ASAN=ON -DBUILD_SHARED_LIBS=TRUE"
-            # Ninja is not faster on MSVC because... MSVC
-            # cmake_generator: "Ninja"
-            # cmake_generator: "Ninja Multi-Config"
-            # This env runs address sanitizers
-            # runs_asan: true
 
           - os: windows-2022
             c: gcc
@@ -169,6 +129,67 @@ jobs:
             name: "Windows 2022 MinGW GCC 13"
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: Ninja
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set timestamp and zip name
+        shell: bash
+        run: |
+          echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> $GITHUB_ENV
+
+          # Prefix unic: user_repo_buildType_os_compiler
+          echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed 's|/|_|')" >> $GITHUB_ENV
+
+      - name: Install packages
+        uses: ./.github/actions/install-packages
+
+      - name: Configure CMake
+        uses: ./.github/actions/configure-cmake
+        with:
+          custom_flags: ${{ matrix.cmake_flags }}
+          warnings_as_errors: 'ON'
+
+      - name: Build
+        run: bash ./scripts/cmake.sh build -c ${{ env.BUILD_TYPE }}
+
+      - name: Install
+        run: bash ./scripts/cmake.sh install -i artifacts -c ${{ env.BUILD_TYPE }}
+
+      - name: Debug
+        run: |
+          echo "Listing installed files in artifacts/bin/:"
+          ls -la artifacts/${{ env.BIN_DIR }}/
+
+      - name: Move artifacts
+        run: |
+          mkdir ${{ env.ZIP_NAME }}
+          mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
+          ls -la ${{ env.ZIP_NAME }}
+
+      - name: Process artifacts
+        uses: ./.github/actions/process-artifacts
+
+      # ================================
+      #        FIXED ARTIFACT UPLOAD
+      # ================================
+      - name: Upload artifacts (no 409 conflicts)
+        uses: actions/upload-artifact@v4
+        with:
+          # NUME 100% UNIC:
+          # ZIP_NAME + TIMESTAMP + run_attempt (garantat unic de GitHub)
+          name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}_${{ github.run_attempt }}
+          path: ${{ env.ZIP_NAME }}
+          retention-days: 30
+
+      - name: Runtime checks
+        uses: ./.github/actions/runtime-checks
+
+      - name: Create release
+        uses: ./.github/actions/create-release
+        if: startsWith(github.ref, 'refs/tags/')
+
 
     steps:
       - name: Checkout repo

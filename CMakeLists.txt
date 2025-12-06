@@ -71,6 +71,11 @@ set(SOURCE_CLASSES_CPP
         CASETA.cpp
         COS_CUMPARATURI.cpp
         MERCHANDISE.cpp
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
 )
 
 
@@ -81,6 +86,11 @@ set(HEADER_FILES
         COS_CUMPARATURI.h
         EroriMuzicale.h
         MERCHANDISE.h
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
 )
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
@@ -88,6 +98,11 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         main.cpp
         ${SOURCE_CLASSES_CPP}
         ${HEADER_FILES}
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
+        main.cpp
 )
 
 
@@ -115,15 +130,12 @@ target_link_libraries(${MAIN_EXECUTABLE_NAME}
         Threads::Threads
 )
 
-target_link_libraries(run_tests
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-)
+
 
 
 # copy binaries to "bin" folder; these are uploaded as artifacts on each release
 # DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
-install(TARGETS ${MAIN_EXECUTABLE_NAME} run_tests DESTINATION ${DESTINATION_DIR})
+
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
