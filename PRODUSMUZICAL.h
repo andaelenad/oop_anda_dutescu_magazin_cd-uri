@@ -24,13 +24,14 @@ protected:
 
 public:
     ProdusMuzical(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret);
+
+
     virtual ~ProdusMuzical();
 
     ProdusMuzical& operator=(const ProdusMuzical& other) = delete;
     ProdusMuzical& operator=(ProdusMuzical&& other) = delete;
 
     virtual double calculeazaTaxa() const = 0;
-    // Semnătura corectă pentru clonarea cu unique_ptr
     virtual std::unique_ptr<ProdusMuzical> clone() const = 0;
 
     void afiseaza() const;
