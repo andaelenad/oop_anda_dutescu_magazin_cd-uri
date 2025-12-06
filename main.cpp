@@ -8,7 +8,7 @@
 #include "COMANDA.h"
 #include "MAGAZIN.h"
 #include "EroriMuzicale.h"
-
+#include "COMANDALIVRARE.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -446,12 +446,33 @@ int main() {
 
     Client client_dummy{"Ion", "Popescu"};
 
+    Client client_livrare{"Ana", "ana.l@test.ro"}; // Client nou pentru livrare
+
 
     CosCumparaturi cos;
     cos.adaugaProdus(std::make_unique<ProdusMuzicalDummy>());
-
-
     Comanda comanda_dummy(client_dummy, std::move(cos));
+    magazin.adaugaComanda(comanda_dummy);
+
+
+
+    CosCumparaturi cos_livrare;
+    cos_livrare.adaugaProdus(std::make_unique<CD>("Best Of", "Artist Livrare", 2020, "Pop", 50.00, 10));
+
+
+    ComandaLivrare comanda_livrare_test(
+        client_livrare,
+        std::move(cos_livrare),
+        "Strada Testului, Nr. 5, Cluj-Napoca",
+        15.00,
+        true
+    );
+    magazin.adaugaComanda(comanda_livrare_test);
+
+    cos.adaugaProdus(std::make_unique<ProdusMuzicalDummy>());
+
+
+
 
 
     magazin.adaugaComanda(comanda_dummy);
