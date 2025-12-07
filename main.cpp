@@ -8,6 +8,7 @@
 #include "COMANDA.h"
 #include "MAGAZIN.h"
 #include "EroriMuzicale.h"
+#include "COMANDALIVRARE.h"
 
 #include <iostream>
 #include <fstream>
@@ -116,6 +117,7 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
             }
 
             if (!cosComanda.produse.empty()) {
+                // Notă: Aici se adaugă doar Comenzi de bază. Nu putem citi ComandaLivrare direct din structura JSON curentă.
                 Comanda comanda(client, std::move(cosComanda));
                 magazin.adaugaComanda(comanda);
             }
@@ -181,11 +183,12 @@ void subMeniuTesteAvansate(Magazin& magazin) {
 
     while (true) {
         std::cout << "\n\n--- TESTE POO AVANSATE & GESTIUNE MEMORIE ---\n";
-        std::cout << "1. Test CLONARE (Constructor Virtual)\n";
+        std::cout << "1. Test CLONARE (Produs Muzical)\n";
         std::cout << "2. Test COPY CONSTRUCTOR (Comanda)\n";
         std::cout << "3. Test Actualizare Comanda (Logica complexa)\n";
         std::cout << "4. Test DYNAMIC_CAST (Afisare Viniluri specifice)\n";
-        std::cout << "5. Inapoi la Meniul Principal\n";
+        std::cout << "5. Test CLONARE (Comanda Livrare Polimorfica)\n"; // ⬅️ Noua optiune
+        std::cout << "6. Inapoi la Meniul Principal\n"; // ⬅️ Modificat
         std::cout << "Alegeti optiunea: ";
 
         if (!citesteOptiune(optiune)) {
@@ -194,7 +197,7 @@ void subMeniuTesteAvansate(Magazin& magazin) {
 
         switch (optiune) {
             case 1: {
-                std::cout << "\n--- TEST CLONARE (VIRTUAL CONSTRUCTOR) ---\n";
+                std::cout << "\n--- TEST CLONARE (VIRTUAL CONSTRUCTOR Produs) ---\n";
                 if (comenzi[0].getCos().produse.empty()) {
                     std::cout << "[AVERTISMENT] Prima comanda nu contine produse pentru test.\n";
                     break;
@@ -243,7 +246,35 @@ void subMeniuTesteAvansate(Magazin& magazin) {
                 comenzi[0].getCos().afiseazaDoarViniluri();
                 break;
             }
-            case 5: {
+            case 5: { // ⬅️ Noul Test de Clonare Polimorfică pentru ComandaLivrare
+                std::cout << "\n--- TEST CLONARE COMANDA LIVRARE (Polimorfic) ---\n";
+                const Comanda* cmd_ptr = nullptr;
+
+                // Cauta o ComandaLivrare in magazin (folosind dynamic_cast)
+                for(const auto& c : magazin.getComenzi()) {
+                    if (dynamic_cast<const ComandaLivrare*>(&c)) {
+                        cmd_ptr = &c;
+                        break;
+                    }
+                }
+
+                if (cmd_ptr) {
+                    std::unique_ptr<Comanda> comandaClonata = cmd_ptr->clone();
+
+                    std::cout << "Comanda Originala (Tip: Livrare) total: " << std::fixed << std::setprecision(2) << cmd_ptr->calculeazaTotalComanda() << "\n";
+                    std::cout << "Comanda Clonata (Tip: " << (dynamic_cast<const ComandaLivrare*>(comandaClonata.get()) ? "Livrare)" : "Baza)") << " total: " << std::fixed << std::setprecision(2) << comandaClonata->calculeazaTotalComanda() << "\n";
+
+                    if (dynamic_cast<const ComandaLivrare*>(comandaClonata.get())) {
+                        std::cout << "[SUCCES] Clonarea a creat un obiect nou de tip derivat (ComandaLivrare).\n";
+                    } else {
+                        std::cout << "[EROARE] Clonarea nu a fost polimorfica.\n";
+                    }
+                } else {
+                    std::cout << "[AVERTISMENT] Nu s-a gasit nicio ComandaLivrare pentru test. Adaugati una in main().\n";
+                }
+                break;
+            }
+            case 6: {
                 return;
             }
             default:
@@ -262,6 +293,7 @@ void meniuInteractiv(Magazin& magazin) {
         std::cout << "============================================\n";
         std::cout << "--- RAPOARTE & ANALIZA ---\n";
         std::cout << "1. Afiseaza TOATE comenzile (Polimorfism & NVI)\n";
+        // NOTA: CalculeazaTotalComanda() in meniu ar trebui sa fie CalculeazaTotalCuTaxe()
         std::cout << "2. Raport: Filtreaza comenzi dupa artist\n";
         std::cout << "3. Raport: Top N comenzi ca valoare (STL & Sortare)\n";
         std::cout << "4. Raport: Articole Merchandise PREMIUM (Dynamic Cast)\n";
@@ -445,16 +477,31 @@ int main() {
 
 
     Client client_dummy{"Ion", "Popescu"};
+    Client client_livrare{"Ana", "ana.l@test.ro"}; // Client nou pentru ComandaLivrare
 
 
     CosCumparaturi cos;
     cos.adaugaProdus(std::make_unique<ProdusMuzicalDummy>());
-
-
     Comanda comanda_dummy(client_dummy, std::move(cos));
-
-
     magazin.adaugaComanda(comanda_dummy);
+
+    CosCumparaturi cos_livrare;
+    cos_livrare.adaugaProdus(std::make_unique<CD>("Album Livrare", "Artist Livrare", 2020, "Pop", 50.00, 10));
+
+    ComandaLivrare comanda_livrare_test(
+        client_livrare,
+        std::move(cos_livrare),
+        "Strada Testului, Nr. 5, Cluj-Napoca",
+        15.00,
+        true
+    );
+
+    // FIX CPPCHECK: Folosirea getter-ului
+    std::cout << "[INFO] Test CPPCheck, Adresa: " << comanda_livrare_test.getAdresaLivrare() << "\n";
+
+    magazin.adaugaComanda(comanda_livrare_test); // Adaugă comanda polimorfică
+
+
     magazin.sorteazaComenziDupaValoare();
     magazin.filtreazaComenziDupaArtist("Artist");
 
