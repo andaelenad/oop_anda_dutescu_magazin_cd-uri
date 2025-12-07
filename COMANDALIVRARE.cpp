@@ -40,6 +40,7 @@ std::unique_ptr<Comanda> ComandaLivrare::clone() const {
     return std::make_unique<ComandaLivrare>(*this);
 }
 
+
 double ComandaLivrare::calculeazaTotalComanda() const {
     double totalBaza = Comanda::calculeazaTotalComanda();
 
