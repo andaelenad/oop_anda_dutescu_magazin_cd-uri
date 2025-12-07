@@ -55,7 +55,7 @@ double ComandaLivrare::calculeazaTotalComanda() const {
 
 void ComandaLivrare::afiseazaDetaliiComanda(std::ostream& os) const {
     os << "\n--- DETALII LIVRARE ---\n";
-    os << "  Adresa: " << adresaLivrare << "\n";
+    os << "  Adresa: " << getAdresaLivrare() << "\n";
     os << "  Cost Livrare Baza: " << std::fixed << std::setprecision(2) << costBazaLivrare << " RON\n";
     os << "  Urgenta: " << (esteUrgenta ? "DA (+20% taxa)" : "NU") << "\n";
 
