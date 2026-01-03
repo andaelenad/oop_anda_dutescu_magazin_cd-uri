@@ -11,21 +11,26 @@ private:
     std::string material;
 
 public:
-    Merchandise(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret,
-                const std::string& culoare, const std::string& material);
+    Merchandise(const std::string &titlu, const std::string &artist, int an_aparitie, const std::string &gen,
+                double pret,
+                const std::string &culoare, const std::string &material);
+
     ~Merchandise() override = default;
 
     double calculeazaTaxa() const override;
-    void afiseazaDetalii(std::ostream& os) const override;
+
+    void afiseazaDetalii(std::ostream &os) const override;
+
     std::unique_ptr<ProdusMuzical> clone() const override;
 
-    Merchandise(const Merchandise& other);
-    Merchandise& operator=(Merchandise other);
+    Merchandise(const Merchandise &other);
+
+    Merchandise &operator=(Merchandise other);
 
     bool estePremium() const;
 
 private:
-    friend void swap(Merchandise& first, Merchandise& second);
+    friend void swap(Merchandise &first, Merchandise &second);
 };
 
 #endif // MERCHANDISE_H

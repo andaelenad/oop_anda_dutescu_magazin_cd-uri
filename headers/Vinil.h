@@ -10,7 +10,9 @@ private:
 
 public:
     // Constructor
-    Vinil(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int rpm);
+    Vinil(const std::string &titlu, const std::string &artist, int an_aparitie, const std::string &gen, double pret,
+          int rpm);
+
     ~Vinil() override = default;
 
 
@@ -20,15 +22,16 @@ public:
     std::unique_ptr<ProdusMuzical> clone() const override;
 
 
-    Vinil(const Vinil& other);
-    Vinil& operator=(Vinil other);
+    Vinil(const Vinil &other);
+
+    Vinil &operator=(Vinil other);
 
 protected:
-    void afiseazaDetalii(std::ostream& os) const override;
+    void afiseazaDetalii(std::ostream &os) const override;
 
 private:
-
-    friend void swap(Vinil& first, Vinil& second);
+    friend void swap(Vinil &first, Vinil &second);
 };
 
 #endif // VINIL_H
+

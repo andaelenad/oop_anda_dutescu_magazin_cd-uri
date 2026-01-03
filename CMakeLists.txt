@@ -38,6 +38,8 @@ set(SOURCE_FILES
         src/CosCumparaturi.cpp
         src/Merchandise.cpp
         src/ComandaLivrare.cpp
+        headers/ProdusMuzicalDummy.h
+        src/ProdusMuzicalDummy.cpp
 )
 
 add_executable(${MAIN_EXECUTABLE_NAME} ${SOURCE_FILES})

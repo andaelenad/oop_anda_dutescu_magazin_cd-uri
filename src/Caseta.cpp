@@ -5,11 +5,11 @@
 #include <memory>
 #include <algorithm>
 
-Caseta::Caseta(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, const std::string& tip_banda)
-    : ProdusMuzical(titlu, artist, an_aparitie, gen, pret), tip_banda(tip_banda) {}
+Caseta::Caseta(const std::string& titlu, const std::string& artist, int anAparitie, const std::string& gen, double pret, const std::string& tipBanda)
+    : ProdusMuzical(titlu, artist, anAparitie, gen, pret), tipBanda(tipBanda) {}
 
 Caseta::Caseta(const Caseta& other)
-    : ProdusMuzical(other), tip_banda(other.tip_banda) {}
+    : ProdusMuzical(other), tipBanda(other.tipBanda) {}
 
 
 void swap(Caseta& first, Caseta& second) {
@@ -18,7 +18,7 @@ void swap(Caseta& first, Caseta& second) {
     swap(static_cast<ProdusMuzical&>(first), static_cast<ProdusMuzical&>(second));
 
 
-    swap(first.tip_banda, second.tip_banda);
+    swap(first.tipBanda, second.tipBanda);
 }
 
 Caseta& Caseta::operator=(Caseta other) {
@@ -35,5 +35,5 @@ double Caseta::calculeazaTaxa() const {
 }
 
 void Caseta::afiseazaDetalii(std::ostream& os) const {
-    os << "Tip: Caseta | Banda: " << tip_banda << "\n";
+    os << "Tip: Caseta | Banda: " << tipBanda << "\n";
 }

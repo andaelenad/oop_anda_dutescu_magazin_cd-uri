@@ -10,12 +10,12 @@ class ProdusMuzical {
 private:
     std::string titlu;
     std::string artist;
-    int an_aparitie;
+    int anAparitie;
     std::string gen;
     double pret;
-    int id_produs;
+    int idProdus;
 
-    static size_t next_id;
+    static size_t nextId;
     static size_t numarTotalProduse;
 
 protected:
@@ -38,8 +38,8 @@ public:
 
     double getPret() const { return pret; }
     const std::string& getArtist() const { return artist; }
-    int getIdProdus() const { return id_produs; }
-    int getAnAparitie() const { return an_aparitie; }
+    int getIdProdus() const { return idProdus; }
+    int getAnAparitie() const { return anAparitie; }
     const std::string& getTitlu() const { return titlu; }
     const std::string& getGen() const { return gen; }
 

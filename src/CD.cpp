@@ -5,12 +5,12 @@
 #include <algorithm>
 #include <memory>
 
-CD::CD(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret, int nr_piese)
-    : ProdusMuzical(titlu, artist, an_aparitie, gen, pret), nr_piese(nr_piese) {
+CD::CD(const std::string& titlu, const std::string& artist, int anAparitie, const std::string& gen, double pret, int nrPiese)
+    : ProdusMuzical(titlu, artist, anAparitie, gen, pret), nrPiese(nrPiese) {
 }
 
 CD::CD(const CD& other)
-    : ProdusMuzical(other), nr_piese(other.nr_piese) {
+    : ProdusMuzical(other), nrPiese(other.nrPiese) {
 }
 
 void swap(CD& first, CD& second) {
@@ -19,7 +19,7 @@ void swap(CD& first, CD& second) {
     swap(static_cast<ProdusMuzical&>(first), static_cast<ProdusMuzical&>(second));
 
 
-    swap(first.nr_piese, second.nr_piese);
+    swap(first.nrPiese, second.nrPiese);
 }
 
 CD& CD::operator=(CD other) {
@@ -37,5 +37,5 @@ double CD::calculeazaTaxa() const {
 }
 
 void CD::afiseazaDetalii(std::ostream& os) const {
-    os << "Tip: CD | Piese: " << nr_piese;
+    os << "Tip: CD | Piese: " << nrPiese;
 }
