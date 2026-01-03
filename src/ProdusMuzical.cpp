@@ -7,8 +7,8 @@
 size_t ProdusMuzical::nextId = 1;
 size_t ProdusMuzical::numarTotalProduse = 0;
 
-ProdusMuzical::ProdusMuzical(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret)
-    : titlu(titlu), artist(artist), anAparitie(an_aparitie), gen(gen), idProdus(nextId++)
+ProdusMuzical::ProdusMuzical(const std::string& titlu, const std::string& artist, int anAparitie, const std::string& gen, double pret)
+    : titlu(titlu), artist(artist), anAparitie(anAparitie), gen(gen), idProdus(nextId++)
 {
 
     if (pret <= 0.0) {

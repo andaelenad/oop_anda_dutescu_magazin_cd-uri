@@ -4,30 +4,30 @@
 #include <utility>
 #include <algorithm>
 
-ComandaLivrare::ComandaLivrare(const Client& client, CosCumparaturi cos,
-                               const std::string& adresa, double costBaza, bool urgent)
+ComandaLivrare::ComandaLivrare(const Client &client, CosCumparaturi cos,
+                               const std::string &adresa, double costBaza, bool urgent)
     : Comanda(client, std::move(cos)),
       adresaLivrare(adresa),
       costBazaLivrare(costBaza),
-      esteUrgenta(urgent)
-{}
+      esteUrgenta(urgent) {
+}
 
-ComandaLivrare::ComandaLivrare(const ComandaLivrare& other)
+ComandaLivrare::ComandaLivrare(const ComandaLivrare &other)
     : Comanda(other),
       adresaLivrare(other.adresaLivrare),
       costBazaLivrare(other.costBazaLivrare),
-      esteUrgenta(other.esteUrgenta)
-{}
+      esteUrgenta(other.esteUrgenta) {
+}
 
-void swap(ComandaLivrare& first, ComandaLivrare& second) noexcept {
+void swap(ComandaLivrare &first, ComandaLivrare &second) noexcept {
     using std::swap;
-    swap(static_cast<Comanda&>(first), static_cast<Comanda&>(second));
+    swap(static_cast<Comanda &>(first), static_cast<Comanda &>(second));
     swap(first.adresaLivrare, second.adresaLivrare);
     swap(first.costBazaLivrare, second.costBazaLivrare);
     swap(first.esteUrgenta, second.esteUrgenta);
 }
 
-ComandaLivrare& ComandaLivrare::operator=(const ComandaLivrare& other) {
+ComandaLivrare &ComandaLivrare::operator=(const ComandaLivrare &other) {
     if (this != &other) {
         ComandaLivrare temp = other;
         swap(*this, temp);
@@ -53,7 +53,7 @@ double ComandaLivrare::calculeazaTotalComanda() const {
     return totalBaza + costFinalLivrare;
 }
 
-void ComandaLivrare::afiseazaDetaliiComanda(std::ostream& os) const {
+void ComandaLivrare::afiseazaDetaliiComanda(std::ostream &os) const {
     os << "\n--- DETALII LIVRARE ---\n";
     os << "  Adresa: " << getAdresaLivrare() << "\n";
     os << "  Cost Livrare Baza: " << std::fixed << std::setprecision(2) << costBazaLivrare << " RON\n";
@@ -62,6 +62,6 @@ void ComandaLivrare::afiseazaDetaliiComanda(std::ostream& os) const {
     double costFinalLivrare = this->calculeazaTotalComanda() - Comanda::calculeazaTotalComanda();
 
     os << "  Cost Final Livrare: " << std::fixed << std::setprecision(2)
-       << costFinalLivrare << " RON\n";
+            << costFinalLivrare << " RON\n";
     os << "-----------------------\n";
 }

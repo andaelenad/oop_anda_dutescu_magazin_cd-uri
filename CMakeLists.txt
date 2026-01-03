@@ -29,7 +29,7 @@ find_package(Threads REQUIRED)
 set(SOURCE_FILES
         src/main.cpp
         src/Client.cpp
-        src/Cd.cpp
+        src/CD.cpp
         src/Comanda.cpp
         src/Magazin.cpp
         src/ProdusMuzical.cpp
@@ -54,6 +54,6 @@ target_link_libraries(${MAIN_EXECUTABLE_NAME}
 install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})
 copy_files(FILES comenzi.json COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
 
-if(APPLE)
+if (APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
-endif()
+endif ()

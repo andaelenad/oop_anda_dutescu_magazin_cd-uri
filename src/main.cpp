@@ -35,11 +35,11 @@ using json = nlohmann::json;
  * @throws EroarePretInvalid If the price is non-positive.
  * @throws EroareFormatNecunoscut If the product type is not recognized.
  */
-unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
+unique_ptr<ProdusMuzical> createProdusFromJSON(const json &item) {
     string tip = item.at("tip").get<string>();
     string titlu = item.at("titlu").get<string>();
     string artist = item.at("artist").get<string>();
-    int anAparitie = item.at("an_aparitie").get<int>();
+    int anAparitie = item.at("anAparitie").get<int>();
     string gen = item.at("gen").get<string>();
     double pret = item.at("pret").get<double>();
 
@@ -50,21 +50,17 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
     if (tip == "CD") {
         int nrPiese = item.at("viteza").get<int>();
         return make_unique<CD>(titlu, artist, anAparitie, gen, pret, nrPiese);
-    }
-    else if (tip == "VINIL") {
+    } else if (tip == "VINIL") {
         int rpm = item.at("rpm").get<int>();
         return make_unique<Vinil>(titlu, artist, anAparitie, gen, pret, rpm);
-    }
-    else if (tip == "CASETA") {
+    } else if (tip == "CASETA") {
         string tipBanda = item.at("tip_banda").get<string>();
         return make_unique<Caseta>(titlu, artist, anAparitie, gen, pret, tipBanda);
-    }
-    else if (tip == "MERCHANDISE") {
+    } else if (tip == "MERCHANDISE") {
         string culoare = item.at("culoare").get<string>();
         string material = item.at("material").get<string>();
         return make_unique<Merchandise>(titlu, artist, anAparitie, gen, pret, culoare, material);
-    }
-    else {
+    } else {
         throw EroareFormatNecunoscut("Tip de produs JSON necunoscut: " + tip);
     }
 }
@@ -75,7 +71,7 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json& item) {
  * @param magazin Reference to the Magazin object where orders will be added.
  * @throws EroareDateIncomplete If the file cannot be opened or JSON format is invalid.
  */
-void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
+void citesteComenziDinJSON(const std::string &numeFisier, Magazin &magazin) {
     std::ifstream f(numeFisier);
 
     if (!f.is_open()) {
@@ -86,27 +82,25 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
         json comenziJSON = json::parse(f);
 
         if (!comenziJSON.is_array()) {
-             throw EroareDateIncomplete("Fisierul JSON nu contine un array de comenzi.");
+            throw EroareDateIncomplete("Fisierul JSON nu contine un array de comenzi.");
         }
 
-        for (const auto& comandaItem : comenziJSON) {
+        for (const auto &comandaItem: comenziJSON) {
             string numeClient = comandaItem.at("client").at("nume").get<string>();
             string emailClient = comandaItem.at("client").at("email").get<string>();
             Client client(numeClient, emailClient);
 
             CosCumparaturi cosComanda;
 
-            for (const auto& produsItem : comandaItem.at("produse")) {
+            for (const auto &produsItem: comandaItem.at("produse")) {
                 try {
                     cosComanda.adaugaProdus(createProdusFromJSON(produsItem));
-                }
-                catch (const EroarePretInvalid& e) {
-                     cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
-                          << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
-                }
-                catch (const EroareMuzicala& e) {
-                     cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
-                          << " (Produs ignorat)\n";
+                } catch (const EroarePretInvalid &e) {
+                    cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
+                            << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
+                } catch (const EroareMuzicala &e) {
+                    cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
+                            << " (Produs ignorat)\n";
                 }
             }
 
@@ -115,11 +109,9 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
                 magazin.adaugaComanda(comanda);
             }
         }
-    }
-    catch (const json::exception& e) {
+    } catch (const json::exception &e) {
         throw EroareDateIncomplete("Eroare la parsarea datelor JSON: " + std::string(e.what()));
-    }
-    catch (const exception& e) {
+    } catch (const exception &e) {
         throw EroareDateIncomplete("Eroare neasteptata la citirea comenzilor: " + std::string(e.what()));
     }
 }
@@ -129,22 +121,21 @@ void citesteComenziDinJSON(const std::string& numeFisier, Magazin& magazin) {
  * * Uses dynamic_cast to identify Merchandise objects and checks their premium status.
  * @param magazin The store object containing all orders.
  */
-void afiseazaMerchPremiumCumparat(const Magazin& magazin) {
+void afiseazaMerchPremiumCumparat(const Magazin &magazin) {
     std::cout << "\n=== RAPORT ARTICOLE MERCHANDISE PREMIUM CUMPARATE (DYNAMIC CAST) ===\n";
     int count = 0;
 
-    for (const auto& comanda : magazin.getComenzi()) {
-        const CosCumparaturi& cos = comanda.getCos();
+    for (const auto &comanda: magazin.getComenzi()) {
+        const CosCumparaturi &cos = comanda.getCos();
 
-        for (const auto& produsPtr : cos.produse) {
-            if (const Merchandise* merch = dynamic_cast<const Merchandise*>(produsPtr.get())) {
-
+        for (const auto &produsPtr: cos.produse) {
+            if (const Merchandise *merch = dynamic_cast<const Merchandise *>(produsPtr.get())) {
                 if (merch->estePremium()) {
                     std::cout << "------------------------------------------\n";
                     std::cout << "[PREMIUM GASIT] Client: " << comanda.getClient().getNume() << "\n";
                     merch->afiseaza();
                     std::cout << "Taxa Premium Aplicata: " << std::fixed << std::setprecision(2)
-                              << merch->calculeazaTaxa() << " RON\n";
+                            << merch->calculeazaTaxa() << " RON\n";
                     count++;
                 }
             }
@@ -163,7 +154,7 @@ void afiseazaMerchPremiumCumparat(const Magazin& magazin) {
  * @return true If input was valid.
  * @return false If input was invalid (not a number).
  */
-bool citesteOptiune(int& optiune) {
+bool citesteOptiune(int &optiune) {
     if (!(std::cin >> optiune)) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -178,13 +169,13 @@ bool citesteOptiune(int& optiune) {
  * @brief Sub-menu for running advanced OOP tests (cloning, dynamic_cast, exceptions).
  * * @param magazin Reference to the store object.
  */
-void subMeniuTesteAvansate(Magazin& magazin) {
+void subMeniuTesteAvansate(Magazin &magazin) {
     if (magazin.numarComenzi() == 0) {
         std::cout << "\n[AVERTISMENT] Nu exista comenzi incarcate pentru a rula testele POO.\n";
         return;
     }
 
-    const std::vector<Comanda>& comenzi = magazin.getComenzi();
+    const std::vector<Comanda> &comenzi = magazin.getComenzi();
     int optiune;
 
     while (true) {
@@ -254,10 +245,10 @@ void subMeniuTesteAvansate(Magazin& magazin) {
             }
             case 5: {
                 std::cout << "\n--- TEST CLONARE COMANDA LIVRARE (Polimorfic) ---\n";
-                const Comanda* cmdPtr = nullptr;
+                const Comanda *cmdPtr = nullptr;
 
-                for(const auto& c : magazin.getComenzi()) {
-                    if (dynamic_cast<const ComandaLivrare*>(&c)) {
+                for (const auto &c: magazin.getComenzi()) {
+                    if (dynamic_cast<const ComandaLivrare *>(&c)) {
                         cmdPtr = &c;
                         break;
                     }
@@ -266,16 +257,21 @@ void subMeniuTesteAvansate(Magazin& magazin) {
                 if (cmdPtr) {
                     std::unique_ptr<Comanda> comandaClonata = cmdPtr->clone();
 
-                    std::cout << "Comanda Originala (Tip: Livrare) total: " << std::fixed << std::setprecision(2) << cmdPtr->calculeazaTotalComanda() << "\n";
-                    std::cout << "Comanda Clonata (Tip: " << (dynamic_cast<const ComandaLivrare*>(comandaClonata.get()) ? "Livrare)" : "Baza)") << " total: " << std::fixed << std::setprecision(2) << comandaClonata->calculeazaTotalComanda() << "\n";
+                    std::cout << "Comanda Originala (Tip: Livrare) total: " << std::fixed << std::setprecision(2) <<
+                            cmdPtr->calculeazaTotalComanda() << "\n";
+                    std::cout << "Comanda Clonata (Tip: " << (dynamic_cast<const ComandaLivrare *>(comandaClonata.get())
+                                                                  ? "Livrare)"
+                                                                  : "Baza)") << " total: " << std::fixed <<
+                            std::setprecision(2) << comandaClonata->calculeazaTotalComanda() << "\n";
 
-                    if (dynamic_cast<const ComandaLivrare*>(comandaClonata.get())) {
+                    if (dynamic_cast<const ComandaLivrare *>(comandaClonata.get())) {
                         std::cout << "[SUCCES] Clonarea a creat un obiect nou de tip derivat (ComandaLivrare).\n";
                     } else {
                         std::cout << "[EROARE] Clonarea nu a fost polimorfica.\n";
                     }
                 } else {
-                    std::cout << "[AVERTISMENT] Nu s-a gasit nicio ComandaLivrare pentru test. Adaugati una in main().\n";
+                    std::cout <<
+                            "[AVERTISMENT] Nu s-a gasit nicio ComandaLivrare pentru test. Adaugati una in main().\n";
                 }
                 break;
             }
@@ -293,7 +289,7 @@ void subMeniuTesteAvansate(Magazin& magazin) {
  * * Handles user input and calls appropriate methods on the Magazin object.
  * @param magazin Reference to the Magazin object.
  */
-void meniuInteractiv(Magazin& magazin) {
+void meniuInteractiv(Magazin &magazin) {
     int optiune;
     std::string input;
 
@@ -339,9 +335,10 @@ void meniuInteractiv(Magazin& magazin) {
                     std::cout << "Nu s-au gasit comenzi pentru acest artist.\n";
                 } else {
                     std::cout << "S-au gasit " << comenziFiltrate.size() << " comenzi:\n";
-                    for (const auto& comanda : comenziFiltrate) {
+                    for (const auto &comanda: comenziFiltrate) {
                         std::cout << "  - Client: " << comanda.getClient().getNume()
-                                  << ", Total: " << std::fixed << std::setprecision(2) << comanda.calculeazaTotalComanda() << " RON\n";
+                                << ", Total: " << std::fixed << std::setprecision(2) << comanda.calculeazaTotalComanda()
+                                << " RON\n";
                     }
                 }
                 break;
@@ -350,8 +347,8 @@ void meniuInteractiv(Magazin& magazin) {
                 int n = 0;
                 std::cout << "Introduceti numarul de comenzi de afisat (Top N): ";
                 if (!(std::cin >> n) || n <= 0) {
-                     std::cout << "\n[AVERTISMENT] Numar invalid. Se afiseaza Top 3.\n";
-                     n = 3;
+                    std::cout << "\n[AVERTISMENT] Numar invalid. Se afiseaza Top 3.\n";
+                    n = 3;
                 }
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 magazin.raportComenziTop(n);
@@ -364,8 +361,10 @@ void meniuInteractiv(Magazin& magazin) {
             case 5: {
                 std::cout << "\n--- DATE STATICE GENERALE ---\n";
                 std::cout << "Numar total comenzi: " << magazin.numarComenzi() << "\n";
-                std::cout << "Venit total magazin: " << std::fixed << std::setprecision(2) << magazin.venitTotal() << " RON\n";
-                std::cout << "Total produse muzicale create (Static): " << ProdusMuzical::getNumarTotalProduse() << "\n";
+                std::cout << "Venit total magazin: " << std::fixed << std::setprecision(2) << magazin.venitTotal() <<
+                        " RON\n";
+                std::cout << "Total produse muzicale create (Static): " << ProdusMuzical::getNumarTotalProduse() <<
+                        "\n";
                 break;
             }
             case 6: {
@@ -373,17 +372,19 @@ void meniuInteractiv(Magazin& magazin) {
                 std::getline(std::cin >> std::ws, input);
 
                 bool gasit = false;
-                for (const auto& c : magazin.getComenzi()) {
+                for (const auto &c: magazin.getComenzi()) {
                     if (c.getClient().getEmail() == input) {
                         std::cout << "\n[SUCCES] Comanda gasita pentru " << c.getClient().getNume() << ":\n";
-                        std::cout << "Total: " << std::fixed << std::setprecision(2) << c.calculeazaTotalComanda() << " RON\n";
+                        std::cout << "Total: " << std::fixed << std::setprecision(2) << c.calculeazaTotalComanda() <<
+                                " RON\n";
                         std::cout << c;
                         gasit = true;
                         break;
                     }
                 }
                 if (!gasit) {
-                    std::cout << "\n[NICIUN REZULTAT] Nu s-a gasit nicio comanda asociata cu email-ul: " << input << "\n";
+                    std::cout << "\n[NICIUN REZULTAT] Nu s-a gasit nicio comanda asociata cu email-ul: " << input <<
+                            "\n";
                 }
                 break;
             }
@@ -392,17 +393,19 @@ void meniuInteractiv(Magazin& magazin) {
                 std::getline(std::cin >> std::ws, input);
 
                 bool gasit = false;
-                for (const auto& c : magazin.getComenzi()) {
-                    for (const auto& p : c.getCos().produse) {
+                for (const auto &c: magazin.getComenzi()) {
+                    for (const auto &p: c.getCos().produse) {
                         if (p->getTitlu() == input) {
-                            std::cout << "\n[GASIT] Produsul '" << input << "' in comanda clientului: " << c.getClient().getNume() << "\n";
+                            std::cout << "\n[GASIT] Produsul '" << input << "' in comanda clientului: " << c.getClient()
+                                    .getNume() << "\n";
                             p->afiseaza();
                             gasit = true;
                         }
                     }
                 }
                 if (!gasit) {
-                    std::cout << "\n[NICIUN REZULTAT] Produsul cu titlul '" << input << "' nu a fost gasit in nicio comanda.\n";
+                    std::cout << "\n[NICIUN REZULTAT] Produsul cu titlul '" << input <<
+                            "' nu a fost gasit in nicio comanda.\n";
                 }
                 break;
             }
@@ -412,8 +415,10 @@ void meniuInteractiv(Magazin& magazin) {
                 int nrPiese;
 
                 std::cout << "\n--- SIMULARE ADAUGARE PRODUS NOU (CD) ---\n";
-                std::cout << "Titlu: "; std::getline(std::cin, titlu);
-                std::cout << "Artist: "; std::getline(std::cin, artist);
+                std::cout << "Titlu: ";
+                std::getline(std::cin, titlu);
+                std::cout << "Artist: ";
+                std::getline(std::cin, artist);
                 std::cout << "Nr. Piese: ";
                 if (!(std::cin >> nrPiese)) {
                     std::cin.clear();
@@ -431,10 +436,11 @@ void meniuInteractiv(Magazin& magazin) {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
                 try {
-                    std::unique_ptr<ProdusMuzical> pNou = std::make_unique<CD>(titlu, artist, 2025, "Rock", pret, nrPiese);
+                    std::unique_ptr<ProdusMuzical> pNou = std::make_unique<CD>(
+                        titlu, artist, 2025, "Rock", pret, nrPiese);
                     std::cout << "\n[SUCCES] Produs creat (ID #" << pNou->getIdProdus() << "). Detalii:\n";
                     pNou->afiseaza();
-                } catch (const EroarePretInvalid& e) {
+                } catch (const EroarePretInvalid &e) {
                     std::cerr << "\n[EROARE] Nu s-a putut crea produsul: " << e.what() << "\n";
                 }
                 break;
@@ -442,14 +448,15 @@ void meniuInteractiv(Magazin& magazin) {
             case 9: {
                 std::string nume, email;
                 std::cout << "\n--- SIMULARE ADAUGARE CLIENT NOU ---\n";
-                std::cout << "Nume Client: "; std::getline(std::cin, nume);
-                std::cout << "Email Client: "; std::getline(std::cin, email);
+                std::cout << "Nume Client: ";
+                std::getline(std::cin, nume);
+                std::cout << "Email Client: ";
+                std::getline(std::cin, email);
 
                 try {
                     Client clientNou(nume, email);
                     std::cout << "\n[SUCCES] Client creat (Nume: " << nume << ", Email: " << email << ").\n";
-                }
-                catch (const std::exception& e) {
+                } catch (const std::exception &e) {
                     std::cerr << "\n[EROARE] Nu s-a putut crea clientul: " << e.what() << "\n";
                 }
                 break;
@@ -463,10 +470,10 @@ void meniuInteractiv(Magazin& magazin) {
                 try {
                     std::cout << "Se incearca crearea unui CD cu pret de -10.0 RON...\n";
                     std::unique_ptr<CD> cdEroare = std::make_unique<CD>("Test Error", "NoName", 2025, "Test", -10.0, 5);
-                    (void)cdEroare;
-                } catch (const EroarePretInvalid& e) {
+                    (void) cdEroare;
+                } catch (const EroarePretInvalid &e) {
                     std::cerr << "\n[SUCCES] Exceptie prinsa: " << e.what() << "\n";
-                } catch (const std::exception& e) {
+                } catch (const std::exception &e) {
                     std::cerr << "\n[EROARE] Exceptie Standard prinsa: " << e.what() << "\n";
                 }
                 break;
@@ -524,7 +531,7 @@ int main() {
     const std::string FISIER_JSON = "comenzi.json";
     try {
         citesteComenziDinJSON(FISIER_JSON, magazin);
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cerr << "\n[EROARE FATALA LA CITIRE]: " << e.what() << "\n";
     }
 

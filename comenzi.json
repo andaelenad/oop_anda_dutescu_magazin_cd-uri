@@ -12,7 +12,7 @@
         "artist": "Methadon3000",
         "pret": 55.00,
         "viteza": 10,
-        "an_aparitie": 2018,
+        "anAparitie": 2018,
         "gen": "Hip-Hop"
       },
       {
@@ -21,7 +21,7 @@
         "artist": "Cheloo",
         "pret": 145.00,
         "rpm": 33,
-        "an_aparitie": 2003,
+        "anAparitie": 2003,
         "gen": "Hip-Hop"
       },
       {
@@ -30,7 +30,7 @@
         "artist": "Ombladon",
         "pret": 50.00,
         "tip_banda": "Normal",
-        "an_aparitie": 2004,
+        "anAparitie": 2004,
         "gen": "Hip-Hop"
       },
       {
@@ -40,7 +40,7 @@
         "pret": 85.00,
         "culoare": "Negru",
         "material": "Bumbac",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       },
       {
@@ -49,7 +49,7 @@
         "artist": "VladDobrescu",
         "pret": 60.00,
         "viteza": 10,
-        "an_aparitie": 2020,
+        "anAparitie": 2020,
         "gen": "Hip-Hop"
       }
     ]
@@ -67,7 +67,7 @@
         "artist": "Specii KaziPloae",
         "pret": 60.00,
         "viteza": 10,
-        "an_aparitie": 2011,
+        "anAparitie": 2011,
         "gen": "Hip-Hop"
       },
       {
@@ -76,7 +76,7 @@
         "artist": "Ian",
         "pret": 180.00,
         "rpm": 45,
-        "an_aparitie": 2023,
+        "anAparitie": 2023,
         "gen": "Rock"
       },
       {
@@ -86,7 +86,7 @@
         "pret": 160.00,
         "culoare": "Negru",
         "material": "Lana",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       }
     ]
@@ -104,7 +104,7 @@
         "artist": "Nimeni Altu",
         "pret": 32.00,
         "viteza": 10,
-        "an_aparitie": 2017,
+        "anAparitie": 2017,
         "gen": "Hip-Hop"
       },
       {
@@ -113,7 +113,7 @@
         "artist": "Underman",
         "pret": 130.00,
         "rpm": 33,
-        "an_aparitie": 2019,
+        "anAparitie": 2019,
         "gen": "Hip-Hop"
       },
       {
@@ -122,7 +122,7 @@
         "artist": "Ryu",
         "pret": 28.00,
         "tip_banda": "CrO2",
-        "an_aparitie": 2016,
+        "anAparitie": 2016,
         "gen": "Hip-Hop"
       },
       {
@@ -131,7 +131,7 @@
         "artist": "GuessWho",
         "pret": 45.00,
         "viteza": 10,
-        "an_aparitie": 2009,
+        "anAparitie": 2009,
         "gen": "Hip-Hop"
       }
     ]
@@ -149,7 +149,7 @@
         "artist": "CTC",
         "pret": 34.00,
         "viteza": 10,
-        "an_aparitie": 2004,
+        "anAparitie": 2004,
         "gen": "Hip-Hop"
       },
       {
@@ -158,7 +158,7 @@
         "artist": "Cedry2k",
         "pret": 130.00,
         "rpm": 45,
-        "an_aparitie": 2012,
+        "anAparitie": 2012,
         "gen": "Hip-Hop"
       },
       {
@@ -168,7 +168,7 @@
         "pret": 45.00,
         "culoare": "Alb",
         "material": "Bumbac",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       },
       {
@@ -177,7 +177,7 @@
         "artist": "Deceneu",
         "pret": 36.00,
         "tip_banda": "Normal",
-        "an_aparitie": 2008,
+        "anAparitie": 2008,
         "gen": "Hip-Hop"
       }
     ]
@@ -195,7 +195,7 @@
         "artist": "DOC",
         "pret": 55.00,
         "viteza": 10,
-        "an_aparitie": 2010,
+        "anAparitie": 2010,
         "gen": "Hip-Hop"
       },
       {
@@ -204,7 +204,7 @@
         "artist": "Vescan",
         "pret": 130.00,
         "rpm": 33,
-        "an_aparitie": 2014,
+        "anAparitie": 2014,
         "gen": "Hip-Hop"
       },
       {
@@ -214,7 +214,7 @@
         "pret": 25.00,
         "culoare": "Multicolor",
         "material": "Hartie",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       }
     ]
@@ -232,7 +232,7 @@
         "artist": "Radiohead",
         "pret": 190.00,
         "rpm": 33,
-        "an_aparitie": 1997,
+        "anAparitie": 1997,
         "gen": "Rock"
       },
       {
@@ -241,7 +241,7 @@
         "artist": "DAniMocanu",
         "pret": 90.00,
         "viteza": 10,
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Manele"
       },
       {
@@ -251,7 +251,7 @@
         "pret": 900.00,
         "culoare": "Negru",
         "material": "Piele",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       }
     ]
@@ -269,7 +269,7 @@
         "artist": "Smiley",
         "pret": 90.00,
         "viteza": 10,
-        "an_aparitie": 2020,
+        "anAparitie": 2020,
         "gen": "Pop"
       },
       {
@@ -278,7 +278,7 @@
         "artist": "Smiley",
         "pret": 180.00,
         "rpm": 45,
-        "an_aparitie": 2022,
+        "anAparitie": 2022,
         "gen": "Pop"
       },
       {
@@ -287,7 +287,7 @@
         "artist": "Smiley",
         "pret": 80.00,
         "tip_banda": "CrO2",
-        "an_aparitie": 2015,
+        "anAparitie": 2015,
         "gen": "Pop"
       },
       {
@@ -297,7 +297,7 @@
         "pret": 15.00,
         "culoare": "Argint",
         "material": "Metal",
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Merchandise"
       }
     ]
@@ -315,7 +315,7 @@
         "artist": "ArtistX",
         "pret": -10.00,
         "viteza": 10,
-        "an_aparitie": 2024,
+        "anAparitie": 2024,
         "gen": "Pop",
         "comentariu_exceptie": "Acest produs va declansa EroarePretInvalid in constructorul CD-ului."
       }

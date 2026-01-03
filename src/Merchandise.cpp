@@ -4,14 +4,15 @@
 #include <memory>
 #include <algorithm>
 
-Merchandise::Merchandise(const std::string& titlu, const std::string& artist, int an_aparitie, const std::string& gen, double pret,
-                         const std::string& culoare, const std::string& material)
-    : ProdusMuzical(titlu, artist, an_aparitie, gen, pret), culoare(culoare), material(material) {}
+Merchandise::Merchandise(const std::string &titlu, const std::string &artist, int anAparitie, const std::string &gen,
+                         double pret,
+                         const std::string &culoare, const std::string &material)
+    : ProdusMuzical(titlu, artist, anAparitie, gen, pret), culoare(culoare), material(material) {
+}
 
-Merchandise::Merchandise(const Merchandise& other)
-    : ProdusMuzical(other), culoare(other.culoare), material(other.material)
-{
-    (void)other.estePremium();
+Merchandise::Merchandise(const Merchandise &other)
+    : ProdusMuzical(other), culoare(other.culoare), material(other.material) {
+    (void) other.estePremium();
 }
 
 std::unique_ptr<ProdusMuzical> Merchandise::clone() const {
@@ -32,20 +33,19 @@ double Merchandise::calculeazaTaxa() const {
     return taxa;
 }
 
-void Merchandise::afiseazaDetalii(std::ostream& os) const {
+void Merchandise::afiseazaDetalii(std::ostream &os) const {
     os << "Tip: Merchandise | Culoare: " << culoare
-       << " | Material: " << material;
+            << " | Material: " << material;
 }
 
-void swap(Merchandise& first, Merchandise& second) {
+void swap(Merchandise &first, Merchandise &second) {
     using std::swap;
-    swap(static_cast<ProdusMuzical&>(first), static_cast<ProdusMuzical&>(second));
+    swap(static_cast<ProdusMuzical &>(first), static_cast<ProdusMuzical &>(second));
     swap(first.culoare, second.culoare);
     swap(first.material, second.material);
 }
 
-Merchandise& Merchandise::operator=(Merchandise other) {
+Merchandise &Merchandise::operator=(Merchandise other) {
     swap(*this, other);
     return *this;
 }
-
