@@ -219,6 +219,7 @@ jobs:
           name: ${{ env.ZIP_NAME }}_${{ github.run_attempt }}_${{ env.TIMESTAMP }}
           path: ${{ env.ZIP_NAME }}
           retention-days: 30
+          overwrite: 'true'
 
       - name: Runtime checks
         uses: ./.github/actions/runtime-checks
