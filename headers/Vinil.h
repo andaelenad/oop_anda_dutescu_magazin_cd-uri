@@ -1,7 +1,7 @@
 #ifndef VINIL_H
 #define VINIL_H
 
-#include "PRODUSMUZICAL.h"
+#include "ProdusMuzical.h"
 #include <memory>
 
 class Vinil : public ProdusMuzical {

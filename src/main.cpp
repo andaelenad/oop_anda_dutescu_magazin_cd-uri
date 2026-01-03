@@ -1,14 +1,14 @@
-#include "PRODUSMUZICAL.h"
+#include "ProdusMuzical.h"
 #include "CD.h"
-#include "VINIL.h"
-#include "CASETA.h"
-#include "MERCHANDISE.h"
-#include "CLIENT.h"
-#include "COS_CUMPARATURI.h"
-#include "COMANDA.h"
-#include "MAGAZIN.h"
+#include "Vinil.h"
+#include "Caseta.h"
+#include "Merchandise.h"
+#include "Client.h"
+#include "CosCumparaturi.h"
+#include "Comanda.h"
+#include "Magazin.h"
 #include "EroriMuzicale.h"
-#include "COMANDALIVRARE.h"
+#include "ComandaLivrare.h"
 
 #include <iostream>
 #include <fstream>

@@ -1,4 +1,4 @@
-#include "COMANDA.h"
+#include "Comanda.h"
 #include <iostream>
 #include <iomanip>
 #include <utility>

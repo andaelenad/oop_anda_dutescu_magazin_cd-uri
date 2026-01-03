@@ -1,7 +1,7 @@
 #ifndef MERCHANDISE_H
 #define MERCHANDISE_H
 
-#include "PRODUSMUZICAL.h"
+#include "ProdusMuzical.h"
 #include <string>
 #include <memory>
 

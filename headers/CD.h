@@ -1,7 +1,7 @@
 #ifndef CD_H
 #define CD_H
 
-#include "PRODUSMUZICAL.h"
+#include "ProdusMuzical.h"
 #include <memory>
 
 class CD : public ProdusMuzical {

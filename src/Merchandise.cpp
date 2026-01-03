@@ -1,4 +1,4 @@
-#include "MERCHANDISE.h"
+#include "Merchandise.h"
 #include <iostream>
 #include <utility>
 #include <memory>

@@ -1,7 +1,7 @@
 #ifndef COMANDA_LIVRARE_H
 #define COMANDA_LIVRARE_H
 
-#include "COMANDA.h"
+#include "Comanda.h"
 #include <string>
 
 class ComandaLivrare : public Comanda {

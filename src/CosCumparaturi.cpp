@@ -1,5 +1,5 @@
-#include "COS_CUMPARATURI.h"
-#include "VINIL.h"
+#include "CosCumparaturi.h"
+#include "Vinil.h"
 #include <iostream>
 #include <iomanip>
 #include <utility>

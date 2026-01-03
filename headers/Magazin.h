@@ -1,9 +1,9 @@
 #ifndef MAGAZIN_H
 #define MAGAZIN_H
 
-#include "COMANDA.h"
-#include "CLIENT.h"
-#include "PRODUSMUZICAL.h"
+#include "Comanda.h"
+#include "Client.h"
+#include "ProdusMuzical.h"
 #include <vector>
 #include <string>
 #include <ostream>

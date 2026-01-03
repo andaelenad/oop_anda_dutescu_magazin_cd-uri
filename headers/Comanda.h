@@ -1,8 +1,8 @@
 #ifndef COMANDA_H
 #define COMANDA_H
 
-#include "CLIENT.h"
-#include "COS_CUMPARATURI.h"
+#include "Client.h"
+#include "CosCumparaturi.h"
 #include <ostream>
 #include <vector>
 #include <memory>

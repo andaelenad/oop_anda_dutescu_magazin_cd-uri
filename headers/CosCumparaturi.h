@@ -1,7 +1,7 @@
 #ifndef COS_CUMPARATURI_H
 #define COS_CUMPARATURI_H
 
-#include "PRODUSMUZICAL.h"
+#include "ProdusMuzical.h"
 #include <vector>
 #include <memory>
 #include <utility>

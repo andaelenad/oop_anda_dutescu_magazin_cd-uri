@@ -1,7 +1,7 @@
-#include "MAGAZIN.h"
-#include "COS_CUMPARATURI.h"
-#include "CLIENT.h"
-#include "COMANDA.h"
+#include "Magazin.h"
+#include "CosCumparaturi.h"
+#include "Client.h"
+#include "Comanda.h"
 #include "CD.h"
 #include <iostream>
 #include <iomanip>
