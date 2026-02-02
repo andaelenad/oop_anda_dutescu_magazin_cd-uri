@@ -1,15 +1,21 @@
-#include "ProdusMuzical.h"
-#include "CD.h"
-#include "Vinil.h"
-#include "Caseta.h"
-#include "Merchandise.h"
-#include "Client.h"
-#include "CosCumparaturi.h"
-#include "Comanda.h"
-#include "Magazin.h"
-#include "EroriMuzicale.h"
-#include "ComandaLivrare.h"
-#include "ProdusMuzicalDummy.h"
+#include "../headers/ProdusMuzical.h"
+#include "../headers/CD.h"
+#include "../headers/Vinil.h"
+#include "../headers/Caseta.h"
+#include "../headers/Merchandise.h"
+#include "../headers/Client.h"
+#include "../headers/CosCumparaturi.h"
+#include "../headers/Comanda.h"
+#include "../headers/Magazin.h"
+#include "../headers/EroriMuzicale.h"
+#include "../headers/ComandaLivrare.h"
+#include "../headers/ProdusMuzicalDummy.h"
+
+// --- INCLUDE-URI NOI (TEMA 3) ---
+#include "../headers/AuditService.h"   // Singleton
+#include "../headers/template.h"      // Template Class & Function
+#include "../headers/ProdusFactory.h"  // Factory Method
+// --------------------------------
 
 #include <iostream>
 #include <fstream>
@@ -28,42 +34,8 @@
 using namespace std;
 using json = nlohmann::json;
 
-/**
- * @brief Factory function that creates a specific ProdusMuzical from a JSON object.
- * * @param item The JSON object containing product details.
- * @return std::unique_ptr<ProdusMuzical> A pointer to the created product.
- * @throws EroarePretInvalid If the price is non-positive.
- * @throws EroareFormatNecunoscut If the product type is not recognized.
- */
-unique_ptr<ProdusMuzical> createProdusFromJSON(const json &item) {
-    string tip = item.at("tip").get<string>();
-    string titlu = item.at("titlu").get<string>();
-    string artist = item.at("artist").get<string>();
-    int anAparitie = item.at("anAparitie").get<int>();
-    string gen = item.at("gen").get<string>();
-    double pret = item.at("pret").get<double>();
-
-    if (pret <= 0) {
-        throw EroarePretInvalid("Pret invalid (" + std::to_string(pret) + ") pentru produsul: " + titlu);
-    }
-
-    if (tip == "CD") {
-        int nrPiese = item.at("viteza").get<int>();
-        return make_unique<CD>(titlu, artist, anAparitie, gen, pret, nrPiese);
-    } else if (tip == "VINIL") {
-        int rpm = item.at("rpm").get<int>();
-        return make_unique<Vinil>(titlu, artist, anAparitie, gen, pret, rpm);
-    } else if (tip == "CASETA") {
-        string tipBanda = item.at("tip_banda").get<string>();
-        return make_unique<Caseta>(titlu, artist, anAparitie, gen, pret, tipBanda);
-    } else if (tip == "MERCHANDISE") {
-        string culoare = item.at("culoare").get<string>();
-        string material = item.at("material").get<string>();
-        return make_unique<Merchandise>(titlu, artist, anAparitie, gen, pret, culoare, material);
-    } else {
-        throw EroareFormatNecunoscut("Tip de produs JSON necunoscut: " + tip);
-    }
-}
+// NOTA: Functia veche 'createProdusFromJSON' a fost mutata in 'ProdusFactory.h'
+// pentru a respecta Design Pattern-ul Factory Method.
 
 /**
  * @brief Reads orders from a JSON file and populates the store.
@@ -72,6 +44,9 @@ unique_ptr<ProdusMuzical> createProdusFromJSON(const json &item) {
  * @throws EroareDateIncomplete If the file cannot be opened or JSON format is invalid.
  */
 void citesteComenziDinJSON(const std::string &numeFisier, Magazin &magazin) {
+    // [SINGLETON] Logare inceput citire
+    AuditService::getInstance()->logAction("Start procesare fisier JSON: " + numeFisier);
+
     std::ifstream f(numeFisier);
 
     if (!f.is_open()) {
@@ -94,10 +69,13 @@ void citesteComenziDinJSON(const std::string &numeFisier, Magazin &magazin) {
 
             for (const auto &produsItem: comandaItem.at("produse")) {
                 try {
-                    cosComanda.adaugaProdus(createProdusFromJSON(produsItem));
+                    // [FACTORY METHOD] Crearea obiectului se face acum prin Fabrica
+                    cosComanda.adaugaProdus(ProdusFactory::createProdus(produsItem));
                 } catch (const EroarePretInvalid &e) {
                     cerr << "AVERTISMENT la citire (Exceptie Pret Invalid): " << e.what()
                             << " pentru clientul " << numeClient << ". (Produs ignorat)\n";
+                    // [SINGLETON] Logare eroare
+                    AuditService::getInstance()->logAction("Eroare validare pret: " + string(e.what()));
                 } catch (const EroareMuzicala &e) {
                     cerr << "AVERTISMENT la citire (Exceptie Muzicala Generica): " << e.what()
                             << " (Produs ignorat)\n";
@@ -109,11 +87,44 @@ void citesteComenziDinJSON(const std::string &numeFisier, Magazin &magazin) {
                 magazin.adaugaComanda(comanda);
             }
         }
+        // [SINGLETON] Logare succes
+        AuditService::getInstance()->logAction("Citire JSON finalizata cu succes.");
+
     } catch (const json::exception &e) {
         throw EroareDateIncomplete("Eroare la parsarea datelor JSON: " + std::string(e.what()));
     } catch (const exception &e) {
         throw EroareDateIncomplete("Eroare neasteptata la citirea comenzilor: " + std::string(e.what()));
     }
+}
+
+/**
+ * @brief Demo function for Template Class and Template Function requirements.
+ */
+void demoTemplates() {
+    std::cout << "\n--- DEMO CERINTE TEMPLATE (TEMA 3) ---\n";
+    AuditService::getInstance()->logAction("Rulare Demo Templates.");
+
+    // 1. CLASA SABLON (Template Class) - Instantiere 1 (String)
+    PachetPromotional<std::string> pachetCoduri("Coduri Reducere VIP");
+    pachetCoduri.adaugaElement("VIP_2024");
+    pachetCoduri.adaugaElement("MUSIC_LOVER");
+    pachetCoduri.afiseazaContinut();
+
+
+    PachetPromotional<double> pachetPreturi("Lista Preturi Promotionale");
+    pachetPreturi.adaugaElement(19.99);
+    pachetPreturi.adaugaElement(49.99);
+    pachetPreturi.afiseazaContinut();
+
+
+    std::cout << "\nTestare Functie Sablon pe CD:\n";
+    CD cdDemo("Album Demo Template", "Artist Test", 2024, "Pop", 100.0, 10);
+    aplicaDiscountGeneric(cdDemo, 20.0); // 20% reducere
+
+    // 2. FUNCTIE SABLON (Template Function) - Instantiere 2 (pe Vinil)
+    std::cout << "Testare Functie Sablon pe Vinil:\n";
+    Vinil vinilDemo("Vinil Demo Template", "Artist Test", 2024, "Jazz", 200.0, 33);
+    aplicaDiscountGeneric(vinilDemo, 50.0); // 50% reducere
 }
 
 /**
@@ -311,8 +322,10 @@ void meniuInteractiv(Magazin &magazin) {
         std::cout << "--------------------------------------------\n";
         std::cout << "10. Rulare TESTE POO AVANSATE & GESTIUNE MEMORIE\n";
         std::cout << "11. Testare EXCEPTII: Pret Invalid\n";
-        std::cout << "12. Iesire\n";
+        std::cout << "--- TEMA 3 (NOU) ---\n";
+        std::cout << "12. DEMO TEMPLATES & PATTERNS\n";
         std::cout << "--------------------------------------------\n";
+        std::cout << "13. Iesire\n";
         std::cout << "Alegeti optiunea: ";
 
         if (!citesteOptiune(optiune)) {
@@ -479,6 +492,10 @@ void meniuInteractiv(Magazin &magazin) {
                 break;
             }
             case 12: {
+                demoTemplates();
+                break;
+            }
+            case 13: {
                 std::cout << "\nVa multumim! La revedere.\n";
                 return;
             }
@@ -494,7 +511,11 @@ void meniuInteractiv(Magazin &magazin) {
  * @return int Exit status code.
  */
 int main() {
+    // [SINGLETON] Audit start aplicatie
+    AuditService::getInstance()->logAction("Aplicatia a pornit (main).");
+
     Magazin magazin("Magazin Muzical Polimorfic");
+
 
     Client clientDummy{"Ion", "Popescu"};
     Client clientLivrare{"Ana", "ana.l@test.ro"};

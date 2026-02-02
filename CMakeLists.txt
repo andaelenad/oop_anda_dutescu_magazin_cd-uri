@@ -40,6 +40,9 @@ set(SOURCE_FILES
         src/ComandaLivrare.cpp
         headers/ProdusMuzicalDummy.h
         src/ProdusMuzicalDummy.cpp
+        headers/template.h
+        headers/AuditService.h
+        headers/ProdusFactory.h
 )
 
 add_executable(${MAIN_EXECUTABLE_NAME} ${SOURCE_FILES})

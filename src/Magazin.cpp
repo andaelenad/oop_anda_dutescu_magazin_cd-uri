@@ -3,6 +3,9 @@
 #include "Client.h"
 #include "Comanda.h"
 #include "CD.h"
+// --- INCLUDE NOU ---
+#include "../headers/AuditService.h"
+// -------------------
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -18,21 +21,18 @@ Magazin::Magazin(const std::string &nume) : nume(nume) {
     this->sorteazaComenziDupaValoare();
     (void) this->filtreazaComenziDupaArtist("NonExistentArtist");
 
-
     CD dummy_produs("Dummy CppCheck Produs", "Checker", 2025, "Test", 1.0, 1);
     (void) this->actualizeazaComanda(dummy_client, dummy_produs);
-
 
     this->raportComenziTop(1);
     (void) this->getComenzi();
 
-    if (this->comenzi.size() > 0 && this->comenzi[0].getClient().getNume() == dummy_client.getNume()) {
-    }
+    AuditService::getInstance()->logAction("Magazinul '" + nume + "' a fost initializat.");
 }
-
 
 void Magazin::adaugaComanda(const Comanda &c) {
     comenzi.push_back(c);
+    AuditService::getInstance()->logAction("Comanda noua adaugata pentru clientul: " + c.getClient().getNume());
 }
 
 double Magazin::venitTotal() const {
@@ -71,6 +71,7 @@ bool Magazin::actualizeazaComanda(const Client &client, const ProdusMuzical &pro
         if (comanda.getClient().getNume() == client.getNume()) {
             std::unique_ptr<ProdusMuzical> produs_clonat(produs_nou.clone());
             comanda.getCos().adaugaProdus(std::move(produs_clonat));
+            AuditService::getInstance()->logAction("Comanda actualizata pentru clientul: " + client.getNume());
             return true;
         }
     }
