@@ -1,5 +1,7 @@
 ext/** linguist-vendored
-
+*.cmake linguist-vendored
+CMakeLists.txt linguist-vendored
+*.sh linguist-vendored
 * text=auto
 *.cpp text
 *.h text
